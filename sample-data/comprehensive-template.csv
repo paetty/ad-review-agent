@@ -1,0 +1,4 @@
+ad_id,feedback,title,ad_copy,industry,media_scene,landing_type,material_format,first_three_seconds,image_filename
+AD-001,"点击后自动跳转，连续返回很多次还是回不去",游戏福利素材,"限时福利，点击查看详情",游戏,锁屏,Deeplink,图片,,ad-001.png
+AD-001,"图片上的字很小，看不清楚",游戏福利素材,"限时福利，点击查看详情",游戏,锁屏,Deeplink,图片,,ad-001.png
+AD-002,"页面打开和返回都正常",工具介绍素材,"功能说明与适用条件",工具,天气,Web,图文,,ad-002.png

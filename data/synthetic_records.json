@@ -1,0 +1,2346 @@
+[
+  {
+    "record_id": "S001",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 1",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "点击后自动跳转到陌生页面；页面提示病毒并诱导跳转到可疑链接",
+      "industry": "电商",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "forced_or_unexpected_jump",
+      "malicious_or_suspicious_redirect"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S002",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 2",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "点击后自动跳转到陌生页面；页面提示病毒并诱导跳转到可疑链接",
+      "industry": "金融",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "forced_or_unexpected_jump",
+      "malicious_or_suspicious_redirect"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S003",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 3",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "点击后自动跳转到陌生页面",
+      "industry": "工具",
+      "media_scene": "浏览器",
+      "landing_type": "应用下载",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "forced_or_unexpected_jump"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S004",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 4",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "点击后自动跳转到陌生页面",
+      "industry": "内容",
+      "media_scene": "视频",
+      "landing_type": "快应用",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "forced_or_unexpected_jump"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S005",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 5",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "点击后自动跳转到陌生页面",
+      "industry": "教育",
+      "media_scene": "其他",
+      "landing_type": "其他",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "forced_or_unexpected_jump"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S006",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 6",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "点击后自动跳转到陌生页面",
+      "industry": "医疗",
+      "media_scene": "锁屏",
+      "landing_type": "Web",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "forced_or_unexpected_jump"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S007",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 7",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "点击后自动跳转到陌生页面",
+      "industry": "其他",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "forced_or_unexpected_jump"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S008",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 8",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "点击后自动跳转到陌生页面",
+      "industry": "游戏",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "forced_or_unexpected_jump"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S009",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 9",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "页面提示病毒并诱导跳转到可疑链接；文案写着稳赚100%且无需任何条件",
+      "industry": "电商",
+      "media_scene": "浏览器",
+      "landing_type": "应用下载",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "malicious_or_suspicious_redirect",
+      "misleading_claim"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S010",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 10",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "页面提示病毒并诱导跳转到可疑链接；文案写着稳赚100%且无需任何条件",
+      "industry": "金融",
+      "media_scene": "视频",
+      "landing_type": "快应用",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "malicious_or_suspicious_redirect",
+      "misleading_claim"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S011",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 11",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "页面提示病毒并诱导跳转到可疑链接",
+      "industry": "工具",
+      "media_scene": "其他",
+      "landing_type": "其他",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "malicious_or_suspicious_redirect"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S012",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 12",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "页面提示病毒并诱导跳转到可疑链接",
+      "industry": "内容",
+      "media_scene": "锁屏",
+      "landing_type": "Web",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "malicious_or_suspicious_redirect"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S013",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 13",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "页面提示病毒并诱导跳转到可疑链接",
+      "industry": "教育",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "malicious_or_suspicious_redirect"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S014",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 14",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "页面提示病毒并诱导跳转到可疑链接",
+      "industry": "医疗",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "malicious_or_suspicious_redirect"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S015",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 15",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "页面提示病毒并诱导跳转到可疑链接",
+      "industry": "其他",
+      "media_scene": "浏览器",
+      "landing_type": "应用下载",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "malicious_or_suspicious_redirect"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S016",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 16",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "页面提示病毒并诱导跳转到可疑链接",
+      "industry": "游戏",
+      "media_scene": "视频",
+      "landing_type": "快应用",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "malicious_or_suspicious_redirect"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S017",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 17",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "文案写着稳赚100%且无需任何条件；素材含低俗擦边内容，让人不适",
+      "industry": "电商",
+      "media_scene": "其他",
+      "landing_type": "其他",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "misleading_claim",
+      "vulgar_or_inappropriate_content"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S018",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 18",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "文案写着稳赚100%且无需任何条件；素材含低俗擦边内容，让人不适",
+      "industry": "金融",
+      "media_scene": "锁屏",
+      "landing_type": "Web",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "misleading_claim",
+      "vulgar_or_inappropriate_content"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S019",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 19",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "文案写着稳赚100%且无需任何条件",
+      "industry": "工具",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "misleading_claim"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S020",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 20",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "文案写着稳赚100%且无需任何条件",
+      "industry": "内容",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "misleading_claim"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S021",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 21",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "文案写着稳赚100%且无需任何条件",
+      "industry": "教育",
+      "media_scene": "浏览器",
+      "landing_type": "应用下载",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "misleading_claim"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S022",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 22",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "文案写着稳赚100%且无需任何条件",
+      "industry": "医疗",
+      "media_scene": "视频",
+      "landing_type": "快应用",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "misleading_claim"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S023",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 23",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "文案写着稳赚100%且无需任何条件",
+      "industry": "其他",
+      "media_scene": "其他",
+      "landing_type": "其他",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "misleading_claim"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S024",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 24",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "文案写着稳赚100%且无需任何条件",
+      "industry": "游戏",
+      "media_scene": "锁屏",
+      "landing_type": "Web",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "misleading_claim"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S025",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 25",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "素材含低俗擦边内容，让人不适；广告太多，一直弹出影响使用",
+      "industry": "电商",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "vulgar_or_inappropriate_content",
+      "excessive_ad_frequency"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S026",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 26",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "素材含低俗擦边内容，让人不适；广告太多，一直弹出影响使用",
+      "industry": "金融",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "vulgar_or_inappropriate_content",
+      "excessive_ad_frequency"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S027",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 27",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "素材含低俗擦边内容，让人不适",
+      "industry": "工具",
+      "media_scene": "浏览器",
+      "landing_type": "应用下载",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "vulgar_or_inappropriate_content"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S028",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 28",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "素材含低俗擦边内容，让人不适",
+      "industry": "内容",
+      "media_scene": "视频",
+      "landing_type": "快应用",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "vulgar_or_inappropriate_content"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S029",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 29",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "素材含低俗擦边内容，让人不适",
+      "industry": "教育",
+      "media_scene": "其他",
+      "landing_type": "其他",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "vulgar_or_inappropriate_content"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S030",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 30",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "素材含低俗擦边内容，让人不适",
+      "industry": "医疗",
+      "media_scene": "锁屏",
+      "landing_type": "Web",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "vulgar_or_inappropriate_content"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S031",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 31",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "素材含低俗擦边内容，让人不适",
+      "industry": "其他",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "vulgar_or_inappropriate_content"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S032",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 32",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "素材含低俗擦边内容，让人不适",
+      "industry": "游戏",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "vulgar_or_inappropriate_content"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S033",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 33",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "广告太多，一直弹出影响使用；同一广告和素材重复出现，已经看腻",
+      "industry": "电商",
+      "media_scene": "浏览器",
+      "landing_type": "应用下载",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "excessive_ad_frequency",
+      "repetitive_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S034",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 34",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "广告太多，一直弹出影响使用；同一广告和素材重复出现，已经看腻",
+      "industry": "金融",
+      "media_scene": "视频",
+      "landing_type": "快应用",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "excessive_ad_frequency",
+      "repetitive_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S035",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 35",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "广告太多，一直弹出影响使用",
+      "industry": "工具",
+      "media_scene": "其他",
+      "landing_type": "其他",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "excessive_ad_frequency"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S036",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 36",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "广告太多，一直弹出影响使用",
+      "industry": "内容",
+      "media_scene": "锁屏",
+      "landing_type": "Web",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "excessive_ad_frequency"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S037",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 37",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "广告太多，一直弹出影响使用",
+      "industry": "教育",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "excessive_ad_frequency"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S038",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 38",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "广告太多，一直弹出影响使用",
+      "industry": "医疗",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "excessive_ad_frequency"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S039",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 39",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "广告太多，一直弹出影响使用",
+      "industry": "其他",
+      "media_scene": "浏览器",
+      "landing_type": "应用下载",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "excessive_ad_frequency"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S040",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 40",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "广告太多，一直弹出影响使用",
+      "industry": "游戏",
+      "media_scene": "视频",
+      "landing_type": "快应用",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "excessive_ad_frequency"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S041",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 41",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "同一广告和素材重复出现，已经看腻；画面模糊，小字完全看不清",
+      "industry": "电商",
+      "media_scene": "其他",
+      "landing_type": "其他",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "repetitive_material",
+      "unclear_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S042",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 42",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "同一广告和素材重复出现，已经看腻；画面模糊，小字完全看不清",
+      "industry": "金融",
+      "media_scene": "锁屏",
+      "landing_type": "Web",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "repetitive_material",
+      "unclear_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S043",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 43",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "同一广告和素材重复出现，已经看腻",
+      "industry": "工具",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "repetitive_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S044",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 44",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "同一广告和素材重复出现，已经看腻",
+      "industry": "内容",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "repetitive_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S045",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 45",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "同一广告和素材重复出现，已经看腻",
+      "industry": "教育",
+      "media_scene": "浏览器",
+      "landing_type": "应用下载",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "repetitive_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S046",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 46",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "同一广告和素材重复出现，已经看腻",
+      "industry": "医疗",
+      "media_scene": "视频",
+      "landing_type": "快应用",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "repetitive_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S047",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 47",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "同一广告和素材重复出现，已经看腻",
+      "industry": "其他",
+      "media_scene": "其他",
+      "landing_type": "其他",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "repetitive_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S048",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 48",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "同一广告和素材重复出现，已经看腻",
+      "industry": "游戏",
+      "media_scene": "锁屏",
+      "landing_type": "Web",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "repetitive_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S049",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 49",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "画面模糊，小字完全看不清；还是去年的旧活动，日期已经过期",
+      "industry": "电商",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "unclear_material",
+      "stale_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S050",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 50",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "画面模糊，小字完全看不清；还是去年的旧活动，日期已经过期",
+      "industry": "金融",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "unclear_material",
+      "stale_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S051",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 51",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "画面模糊，小字完全看不清",
+      "industry": "工具",
+      "media_scene": "浏览器",
+      "landing_type": "应用下载",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "unclear_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S052",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 52",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "画面模糊，小字完全看不清",
+      "industry": "内容",
+      "media_scene": "视频",
+      "landing_type": "快应用",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "unclear_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S053",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 53",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "画面模糊，小字完全看不清",
+      "industry": "教育",
+      "media_scene": "其他",
+      "landing_type": "其他",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "unclear_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S054",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 54",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "画面模糊，小字完全看不清",
+      "industry": "医疗",
+      "media_scene": "锁屏",
+      "landing_type": "Web",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "unclear_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S055",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 55",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "画面模糊，小字完全看不清",
+      "industry": "其他",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "unclear_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S056",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 56",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "画面模糊，小字完全看不清",
+      "industry": "游戏",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "unclear_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S057",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 57",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "还是去年的旧活动，日期已经过期；视频前三秒只有空镜，开场拖沓",
+      "industry": "电商",
+      "media_scene": "浏览器",
+      "landing_type": "应用下载",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "stale_material",
+      "weak_first_three_seconds"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S058",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 58",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "还是去年的旧活动，日期已经过期；视频前三秒只有空镜，开场拖沓",
+      "industry": "金融",
+      "media_scene": "视频",
+      "landing_type": "快应用",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "stale_material",
+      "weak_first_three_seconds"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S059",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 59",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "还是去年的旧活动，日期已经过期",
+      "industry": "工具",
+      "media_scene": "其他",
+      "landing_type": "其他",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "stale_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S060",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 60",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "还是去年的旧活动，日期已经过期",
+      "industry": "内容",
+      "media_scene": "锁屏",
+      "landing_type": "Web",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "stale_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S061",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 61",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "还是去年的旧活动，日期已经过期",
+      "industry": "教育",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "stale_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S062",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 62",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "还是去年的旧活动，日期已经过期",
+      "industry": "医疗",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "stale_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S063",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 63",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "还是去年的旧活动，日期已经过期",
+      "industry": "其他",
+      "media_scene": "浏览器",
+      "landing_type": "应用下载",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "stale_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S064",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 64",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "还是去年的旧活动，日期已经过期",
+      "industry": "游戏",
+      "media_scene": "视频",
+      "landing_type": "快应用",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "stale_material"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S065",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 65",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "视频前三秒只有空镜，开场拖沓；这个内容与当前天气场景完全无关",
+      "industry": "电商",
+      "media_scene": "其他",
+      "landing_type": "其他",
+      "material_format": "横版视频",
+      "first_three_seconds": "视频前三秒只有空镜，开场拖沓"
+    },
+    "gold_labels": [
+      "weak_first_three_seconds",
+      "irrelevant_targeting"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S066",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 66",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "视频前三秒只有空镜，开场拖沓；这个内容与当前天气场景完全无关",
+      "industry": "金融",
+      "media_scene": "锁屏",
+      "landing_type": "Web",
+      "material_format": "竖版视频",
+      "first_three_seconds": "视频前三秒只有空镜，开场拖沓"
+    },
+    "gold_labels": [
+      "weak_first_three_seconds",
+      "irrelevant_targeting"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S067",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 67",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "视频前三秒只有空镜，开场拖沓",
+      "industry": "工具",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "图文",
+      "first_three_seconds": "视频前三秒只有空镜，开场拖沓"
+    },
+    "gold_labels": [
+      "weak_first_three_seconds"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S068",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 68",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "视频前三秒只有空镜，开场拖沓",
+      "industry": "内容",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "图片",
+      "first_three_seconds": "视频前三秒只有空镜，开场拖沓"
+    },
+    "gold_labels": [
+      "weak_first_three_seconds"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S069",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 69",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "视频前三秒只有空镜，开场拖沓",
+      "industry": "教育",
+      "media_scene": "浏览器",
+      "landing_type": "应用下载",
+      "material_format": "横版视频",
+      "first_three_seconds": "视频前三秒只有空镜，开场拖沓"
+    },
+    "gold_labels": [
+      "weak_first_three_seconds"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S070",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 70",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "视频前三秒只有空镜，开场拖沓",
+      "industry": "医疗",
+      "media_scene": "视频",
+      "landing_type": "快应用",
+      "material_format": "竖版视频",
+      "first_three_seconds": "视频前三秒只有空镜，开场拖沓"
+    },
+    "gold_labels": [
+      "weak_first_three_seconds"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S071",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 71",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "视频前三秒只有空镜，开场拖沓",
+      "industry": "其他",
+      "media_scene": "其他",
+      "landing_type": "其他",
+      "material_format": "图文",
+      "first_three_seconds": "视频前三秒只有空镜，开场拖沓"
+    },
+    "gold_labels": [
+      "weak_first_three_seconds"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S072",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 72",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "视频前三秒只有空镜，开场拖沓",
+      "industry": "游戏",
+      "media_scene": "锁屏",
+      "landing_type": "Web",
+      "material_format": "图片",
+      "first_three_seconds": "视频前三秒只有空镜，开场拖沓"
+    },
+    "gold_labels": [
+      "weak_first_three_seconds"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S073",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 73",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "这个内容与当前天气场景完全无关；进入后要连续返回很多次，还是回不去原页面",
+      "industry": "电商",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "irrelevant_targeting",
+      "return_path_friction"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S074",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 74",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "这个内容与当前天气场景完全无关；进入后要连续返回很多次，还是回不去原页面",
+      "industry": "金融",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "irrelevant_targeting",
+      "return_path_friction"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S075",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 75",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "这个内容与当前天气场景完全无关",
+      "industry": "工具",
+      "media_scene": "浏览器",
+      "landing_type": "应用下载",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "irrelevant_targeting"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S076",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 76",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "这个内容与当前天气场景完全无关",
+      "industry": "内容",
+      "media_scene": "视频",
+      "landing_type": "快应用",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "irrelevant_targeting"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S077",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 77",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "这个内容与当前天气场景完全无关",
+      "industry": "教育",
+      "media_scene": "其他",
+      "landing_type": "其他",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "irrelevant_targeting"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S078",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 78",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "这个内容与当前天气场景完全无关",
+      "industry": "医疗",
+      "media_scene": "锁屏",
+      "landing_type": "Web",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "irrelevant_targeting"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S079",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 79",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "这个内容与当前天气场景完全无关",
+      "industry": "其他",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "irrelevant_targeting"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S080",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 80",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "这个内容与当前天气场景完全无关",
+      "industry": "游戏",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "irrelevant_targeting"
+    ],
+    "gold_risk": "medium",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S081",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 81",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "进入后要连续返回很多次，还是回不去原页面；一打开就要求通讯录和定位权限，担心隐私",
+      "industry": "电商",
+      "media_scene": "浏览器",
+      "landing_type": "应用下载",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "return_path_friction",
+      "potential_privacy_risk"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S082",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 82",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "进入后要连续返回很多次，还是回不去原页面；一打开就要求通讯录和定位权限，担心隐私",
+      "industry": "金融",
+      "media_scene": "视频",
+      "landing_type": "快应用",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "return_path_friction",
+      "potential_privacy_risk"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S083",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 83",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "进入后要连续返回很多次，还是回不去原页面",
+      "industry": "工具",
+      "media_scene": "其他",
+      "landing_type": "其他",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "return_path_friction"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S084",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 84",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "进入后要连续返回很多次，还是回不去原页面",
+      "industry": "内容",
+      "media_scene": "锁屏",
+      "landing_type": "Web",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "return_path_friction"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S085",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 85",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "进入后要连续返回很多次，还是回不去原页面",
+      "industry": "教育",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "return_path_friction"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S086",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 86",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "进入后要连续返回很多次，还是回不去原页面",
+      "industry": "医疗",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "return_path_friction"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S087",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 87",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "进入后要连续返回很多次，还是回不去原页面",
+      "industry": "其他",
+      "media_scene": "浏览器",
+      "landing_type": "应用下载",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "return_path_friction"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S088",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 88",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "进入后要连续返回很多次，还是回不去原页面",
+      "industry": "游戏",
+      "media_scene": "视频",
+      "landing_type": "快应用",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "return_path_friction"
+    ],
+    "gold_risk": "high",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S089",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 89",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "一打开就要求通讯录和定位权限，担心隐私；点击后自动跳转到陌生页面",
+      "industry": "电商",
+      "media_scene": "其他",
+      "landing_type": "其他",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "potential_privacy_risk",
+      "forced_or_unexpected_jump"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S090",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 90",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "一打开就要求通讯录和定位权限，担心隐私；点击后自动跳转到陌生页面",
+      "industry": "金融",
+      "media_scene": "锁屏",
+      "landing_type": "Web",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "potential_privacy_risk",
+      "forced_or_unexpected_jump"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S091",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 91",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "一打开就要求通讯录和定位权限，担心隐私",
+      "industry": "工具",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "potential_privacy_risk"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S092",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 92",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "一打开就要求通讯录和定位权限，担心隐私",
+      "industry": "内容",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "potential_privacy_risk"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S093",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 93",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "一打开就要求通讯录和定位权限，担心隐私",
+      "industry": "教育",
+      "media_scene": "浏览器",
+      "landing_type": "应用下载",
+      "material_format": "横版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "potential_privacy_risk"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S094",
+    "split": "evaluation",
+    "input": {
+      "title": "合成演示素材 94",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "一打开就要求通讯录和定位权限，担心隐私",
+      "industry": "医疗",
+      "media_scene": "视频",
+      "landing_type": "快应用",
+      "material_format": "竖版视频",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "potential_privacy_risk"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S095",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 95",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "一打开就要求通讯录和定位权限，担心隐私",
+      "industry": "其他",
+      "media_scene": "其他",
+      "landing_type": "其他",
+      "material_format": "图文",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "potential_privacy_risk"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S096",
+    "split": "demo",
+    "input": {
+      "title": "合成演示素材 96",
+      "ad_copy": "公开演示文案，不代表真实投放",
+      "feedback": "一打开就要求通讯录和定位权限，担心隐私",
+      "industry": "游戏",
+      "media_scene": "锁屏",
+      "landing_type": "Web",
+      "material_format": "图片",
+      "first_three_seconds": "前三秒信息正常"
+    },
+    "gold_labels": [
+      "potential_privacy_risk"
+    ],
+    "gold_risk": "critical",
+    "rationale": "依据合成反馈中的明确关键词进行人工黄金标注。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S097",
+    "split": "evaluation",
+    "input": {
+      "title": "合成正常素材 97",
+      "ad_copy": "展示商品名称、价格和适用条件",
+      "feedback": "页面打开和返回都正常，暂未发现明确问题",
+      "industry": "电商",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "横版视频",
+      "first_three_seconds": "开场直接展示主要信息"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "未发现明确问题，但不等于通过法务审核。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S098",
+    "split": "evaluation",
+    "input": {
+      "title": "合成正常素材 98",
+      "ad_copy": "展示商品名称、价格和适用条件",
+      "feedback": "页面打开和返回都正常，暂未发现明确问题",
+      "industry": "金融",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "竖版视频",
+      "first_three_seconds": "开场直接展示主要信息"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "未发现明确问题，但不等于通过法务审核。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S099",
+    "split": "evaluation",
+    "input": {
+      "title": "合成正常素材 99",
+      "ad_copy": "展示商品名称、价格和适用条件",
+      "feedback": "页面打开和返回都正常，暂未发现明确问题",
+      "industry": "工具",
+      "media_scene": "浏览器",
+      "landing_type": "应用下载",
+      "material_format": "图文",
+      "first_three_seconds": "开场直接展示主要信息"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "未发现明确问题，但不等于通过法务审核。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S100",
+    "split": "evaluation",
+    "input": {
+      "title": "合成正常素材 100",
+      "ad_copy": "展示商品名称、价格和适用条件",
+      "feedback": "页面打开和返回都正常，暂未发现明确问题",
+      "industry": "内容",
+      "media_scene": "视频",
+      "landing_type": "快应用",
+      "material_format": "图片",
+      "first_three_seconds": "开场直接展示主要信息"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "未发现明确问题，但不等于通过法务审核。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S101",
+    "split": "evaluation",
+    "input": {
+      "title": "合成正常素材 101",
+      "ad_copy": "展示商品名称、价格和适用条件",
+      "feedback": "页面打开和返回都正常，暂未发现明确问题",
+      "industry": "教育",
+      "media_scene": "其他",
+      "landing_type": "其他",
+      "material_format": "横版视频",
+      "first_three_seconds": "开场直接展示主要信息"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "未发现明确问题，但不等于通过法务审核。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S102",
+    "split": "evaluation",
+    "input": {
+      "title": "合成正常素材 102",
+      "ad_copy": "展示商品名称、价格和适用条件",
+      "feedback": "页面打开和返回都正常，暂未发现明确问题",
+      "industry": "医疗",
+      "media_scene": "锁屏",
+      "landing_type": "Web",
+      "material_format": "竖版视频",
+      "first_three_seconds": "开场直接展示主要信息"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "未发现明确问题，但不等于通过法务审核。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S103",
+    "split": "evaluation",
+    "input": {
+      "title": "合成正常素材 103",
+      "ad_copy": "展示商品名称、价格和适用条件",
+      "feedback": "页面打开和返回都正常，暂未发现明确问题",
+      "industry": "其他",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "图文",
+      "first_three_seconds": "开场直接展示主要信息"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "未发现明确问题，但不等于通过法务审核。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S104",
+    "split": "evaluation",
+    "input": {
+      "title": "合成正常素材 104",
+      "ad_copy": "展示商品名称、价格和适用条件",
+      "feedback": "页面打开和返回都正常，暂未发现明确问题",
+      "industry": "游戏",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "图片",
+      "first_three_seconds": "开场直接展示主要信息"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "未发现明确问题，但不等于通过法务审核。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S105",
+    "split": "demo",
+    "input": {
+      "title": "合成正常素材 105",
+      "ad_copy": "展示商品名称、价格和适用条件",
+      "feedback": "页面打开和返回都正常，暂未发现明确问题",
+      "industry": "电商",
+      "media_scene": "浏览器",
+      "landing_type": "应用下载",
+      "material_format": "横版视频",
+      "first_three_seconds": "开场直接展示主要信息"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "未发现明确问题，但不等于通过法务审核。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S106",
+    "split": "demo",
+    "input": {
+      "title": "合成正常素材 106",
+      "ad_copy": "展示商品名称、价格和适用条件",
+      "feedback": "页面打开和返回都正常，暂未发现明确问题",
+      "industry": "金融",
+      "media_scene": "视频",
+      "landing_type": "快应用",
+      "material_format": "竖版视频",
+      "first_three_seconds": "开场直接展示主要信息"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "未发现明确问题，但不等于通过法务审核。",
+    "boundary_case": false
+  },
+  {
+    "record_id": "S107",
+    "split": "demo",
+    "input": {
+      "title": "合成边界素材 107",
+      "ad_copy": "演示文案",
+      "feedback": "感觉有点奇怪，但说不清哪里有问题",
+      "industry": "工具",
+      "media_scene": "其他",
+      "landing_type": "其他",
+      "material_format": "图文",
+      "first_three_seconds": "信息不足"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "反馈模糊，证据不足，黄金标签采用 no_issue 并要求保留不确定性。",
+    "boundary_case": true
+  },
+  {
+    "record_id": "S108",
+    "split": "demo",
+    "input": {
+      "title": "合成边界素材 108",
+      "ad_copy": "演示文案",
+      "feedback": "好像见过这条，也可能只是风格相似",
+      "industry": "内容",
+      "media_scene": "锁屏",
+      "landing_type": "Web",
+      "material_format": "图片",
+      "first_three_seconds": "信息不足"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "反馈模糊，证据不足，黄金标签采用 no_issue 并要求保留不确定性。",
+    "boundary_case": true
+  },
+  {
+    "record_id": "S109",
+    "split": "demo",
+    "input": {
+      "title": "合成边界素材 109",
+      "ad_copy": "演示文案",
+      "feedback": "点击以后页面变化了，不确定是不是我误触",
+      "industry": "教育",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "横版视频",
+      "first_three_seconds": "信息不足"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "反馈模糊，证据不足，黄金标签采用 no_issue 并要求保留不确定性。",
+    "boundary_case": true
+  },
+  {
+    "record_id": "S110",
+    "split": "demo",
+    "input": {
+      "title": "合成边界素材 110",
+      "ad_copy": "演示文案",
+      "feedback": "内容一般，没有特别喜欢",
+      "industry": "医疗",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "竖版视频",
+      "first_three_seconds": "信息不足"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "反馈模糊，证据不足，黄金标签采用 no_issue 并要求保留不确定性。",
+    "boundary_case": true
+  },
+  {
+    "record_id": "S111",
+    "split": "demo",
+    "input": {
+      "title": "合成边界素材 111",
+      "ad_copy": "演示文案",
+      "feedback": "字有一点小但仍能阅读",
+      "industry": "其他",
+      "media_scene": "浏览器",
+      "landing_type": "应用下载",
+      "material_format": "图文",
+      "first_three_seconds": "信息不足"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "反馈模糊，证据不足，黄金标签采用 no_issue 并要求保留不确定性。",
+    "boundary_case": true
+  },
+  {
+    "record_id": "S112",
+    "split": "demo",
+    "input": {
+      "title": "合成边界素材 112",
+      "ad_copy": "演示文案",
+      "feedback": "开头比较慢，也可能是叙事需要",
+      "industry": "游戏",
+      "media_scene": "视频",
+      "landing_type": "快应用",
+      "material_format": "图片",
+      "first_three_seconds": "信息不足"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "反馈模糊，证据不足，黄金标签采用 no_issue 并要求保留不确定性。",
+    "boundary_case": true
+  },
+  {
+    "record_id": "S113",
+    "split": "demo",
+    "input": {
+      "title": "合成边界素材 113",
+      "ad_copy": "演示文案",
+      "feedback": "这个广告对别人可能有用",
+      "industry": "电商",
+      "media_scene": "其他",
+      "landing_type": "其他",
+      "material_format": "横版视频",
+      "first_three_seconds": "信息不足"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "反馈模糊，证据不足，黄金标签采用 no_issue 并要求保留不确定性。",
+    "boundary_case": true
+  },
+  {
+    "record_id": "S114",
+    "split": "demo",
+    "input": {
+      "title": "合成边界素材 114",
+      "ad_copy": "演示文案",
+      "feedback": "返回了一次就回来了，但动画有点慢",
+      "industry": "金融",
+      "media_scene": "锁屏",
+      "landing_type": "Web",
+      "material_format": "竖版视频",
+      "first_three_seconds": "信息不足"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "反馈模糊，证据不足，黄金标签采用 no_issue 并要求保留不确定性。",
+    "boundary_case": true
+  },
+  {
+    "record_id": "S115",
+    "split": "demo",
+    "input": {
+      "title": "合成边界素材 115",
+      "ad_copy": "演示文案",
+      "feedback": "需要定位来提供天气，权限用途看起来相关",
+      "industry": "工具",
+      "media_scene": "负一屏/智慧桌面",
+      "landing_type": "浏览器详情页",
+      "material_format": "图文",
+      "first_three_seconds": "信息不足"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "反馈模糊，证据不足，黄金标签采用 no_issue 并要求保留不确定性。",
+    "boundary_case": true
+  },
+  {
+    "record_id": "S116",
+    "split": "demo",
+    "input": {
+      "title": "合成边界素材 116",
+      "ad_copy": "演示文案",
+      "feedback": "宣传很好，但没有看到绝对化承诺",
+      "industry": "内容",
+      "media_scene": "天气",
+      "landing_type": "Deeplink",
+      "material_format": "图片",
+      "first_three_seconds": "信息不足"
+    },
+    "gold_labels": [
+      "no_issue"
+    ],
+    "gold_risk": "low",
+    "rationale": "反馈模糊，证据不足，黄金标签采用 no_issue 并要求保留不确定性。",
+    "boundary_case": true
+  }
+]
