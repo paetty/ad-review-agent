@@ -1,0 +1,682 @@
+{
+  "version": "recorded-provider-pilot-v1",
+  "source_run_id": "20261022T153702Z-c5f6e843",
+  "dataset_sha256": "6a69b245691e3fafb8ec19b25366b18b330f7126024d84f805c6a9c74df3ca6b",
+  "source_model": "qwen3.7-plus",
+  "source_type": "recorded_real_responses_to_synthetic_development_text",
+  "warning": "Historical responses recorded before this fix; offline replay tests postprocessing only, not new prompt/model quality. No real users or original ads.",
+  "cases": [
+    {
+      "reference": {
+        "record_id": "V2-return-flow-1",
+        "group_id": "return-flow",
+        "split": "development",
+        "source_type": "synthetic_authored",
+        "annotation_status": "reviewed",
+        "reviewer": "project_owner_chat_confirmation",
+        "reviewed_at": "2026-10-22",
+        "review_method": "single_reviewer_candidate_confirmation",
+        "input": {
+          "title": "独立表达候选样例",
+          "ad_copy": "产品介绍与适用条件",
+          "feedback": "进入商品页后按了好多下返回，才回到天气页",
+          "industry": "工具",
+          "media_scene": "天气",
+          "landing_type": "Web",
+          "material_format": "图文"
+        },
+        "gold_labels": [
+          "return_path_friction"
+        ],
+        "gold_risk": "high",
+        "gold_assessment_status": "issue_detected"
+      },
+      "retrieved_citations": [
+        {
+          "citation_id": "C1",
+          "chunk_id": "01-navigation-return-01",
+          "document_title": "广告跳转与返回体验演示规范",
+          "snippet": "## 返回路径\n从 Web、浏览器详情页或 Deeplink 返回原媒体时，应尽量保持路径短且入口可识别。需要连续多次返回、无法回到原场景或被迫停留，属于返回路径摩擦。建议记录返回成功率，并以误触返回率作为护栏。",
+          "score": 0.1778,
+          "source_type": "synthetic_demo",
+          "source_url": null,
+          "publisher": null,
+          "section": "返回路径",
+          "version": "1.0",
+          "checked_at": null,
+          "platform": "all",
+          "content_type": "authored_demo"
+        },
+        {
+          "citation_id": "C2",
+          "chunk_id": "08-official-internet-advertising-summary-01",
+          "document_title": "互联网广告管理办法：体验相关条款摘要",
+          "snippet": "## 第十条：弹出广告与开屏广告关闭\n相关广告应具备清晰可用的一键关闭方式。核查关闭障碍及关闭后继续弹出的行为。退出落地页、返回原媒体与关闭广告不是同一个动作，不能直接混用条款。",
+          "score": 0.0311,
+          "source_type": "official_regulation_summary",
+          "source_url": "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/fgs/art/2023/art_d93a579afd45413e8576e4623fab348f.html",
+          "publisher": "国家市场监督管理总局",
+          "section": "第十条：弹出广告与开屏广告关闭",
+          "version": "2023年第72号令",
+          "checked_at": "2026-10-22",
+          "platform": "all",
+          "content_type": "human_summary"
+        },
+        {
+          "citation_id": "C3",
+          "chunk_id": "07-human-review-00",
+          "document_title": "人工复核与风险升级演示规范",
+          "snippet": "## 复核触发\ncritical 风险必须进入人工复核。high 风险和低置信度样本默认进入队列。自动分析只提供辅助判断，不执行处罚、下线或线上策略修改。",
+          "score": 0.0248,
+          "source_type": "synthetic_demo",
+          "source_url": null,
+          "publisher": null,
+          "section": "复核触发",
+          "version": "1.0",
+          "checked_at": null,
+          "platform": "all",
+          "content_type": "authored_demo"
+        },
+        {
+          "citation_id": "C4",
+          "chunk_id": "04-creative-quality-00",
+          "document_title": "素材清晰度与新鲜度演示规范",
+          "snippet": "## 清晰度\n关键信息应具有足够分辨率、字号与对比度。仅凭“看不懂”不能直接判定画面模糊，需要区分信息复杂、表达不清与视觉清晰度问题。",
+          "score": 0.0208,
+          "source_type": "synthetic_demo",
+          "source_url": null,
+          "publisher": null,
+          "section": "清晰度",
+          "version": "1.0",
+          "checked_at": null,
+          "platform": "all",
+          "content_type": "authored_demo"
+        }
+      ],
+      "provider_raw_json": {
+        "labels": [
+          {
+            "label": "return_path_friction",
+            "confidence": 0.95
+          }
+        ],
+        "overall_risk": "high",
+        "confidence": 0.95,
+        "evidence": [
+          {
+            "source": "input",
+            "quote": "进入商品页后按了好多下返回，才回到天气页",
+            "field": "feedback",
+            "citation_id": null
+          },
+          {
+            "source": "retrieval",
+            "quote": "需要连续多次返回、无法回到原场景或被迫停留，属于返回路径摩擦。",
+            "field": "snippet",
+            "citation_id": "C1"
+          }
+        ],
+        "strategy_recommendations": [
+          {
+            "category": "product",
+            "action": "优化落地页返回逻辑，确保从 Web 落地页返回媒体场景（如天气页）的路径最短且可识别，避免用户需多次点击返回键。",
+            "rationale": "用户反馈明确指出需要多次点击返回才能回到原场景，符合 C1 中定义的返回路径摩擦。",
+            "priority": "P1",
+            "expected_metric": "降低误触返回率，提升返回成功率",
+            "guardrail_metric": "返回步骤数 <= 1"
+          }
+        ],
+        "requires_human_review": false,
+        "uncertainties": []
+      },
+      "before_checks": {
+        "labels_match": true,
+        "risk_match": true,
+        "status_match": true,
+        "expected_human_review_by_policy": true,
+        "review_match": true
+      },
+      "before_decision": {
+        "labels": [
+          {
+            "label": "return_path_friction",
+            "confidence": 0.95
+          }
+        ],
+        "overall_risk": "high",
+        "assessment_status": "issue_detected",
+        "requires_human_review": true
+      }
+    },
+    {
+      "reference": {
+        "record_id": "V2-activity-expired-1",
+        "group_id": "activity-expired",
+        "split": "development",
+        "source_type": "synthetic_authored",
+        "annotation_status": "reviewed",
+        "reviewer": "project_owner_chat_confirmation",
+        "reviewed_at": "2026-10-22",
+        "review_method": "single_reviewer_candidate_confirmation",
+        "input": {
+          "title": "独立表达候选样例",
+          "ad_copy": "产品介绍与适用条件",
+          "feedback": "活动截止时间已经过了，广告还在展示",
+          "industry": "工具",
+          "media_scene": "天气",
+          "landing_type": "Web",
+          "material_format": "图文"
+        },
+        "gold_labels": [
+          "stale_material"
+        ],
+        "gold_risk": "medium",
+        "gold_assessment_status": "issue_detected"
+      },
+      "retrieved_citations": [
+        {
+          "citation_id": "C1",
+          "chunk_id": "01-navigation-return-01",
+          "document_title": "广告跳转与返回体验演示规范",
+          "snippet": "## 返回路径\n从 Web、浏览器详情页或 Deeplink 返回原媒体时，应尽量保持路径短且入口可识别。需要连续多次返回、无法回到原场景或被迫停留，属于返回路径摩擦。建议记录返回成功率，并以误触返回率作为护栏。",
+          "score": 0.0924,
+          "source_type": "synthetic_demo",
+          "source_url": null,
+          "publisher": null,
+          "section": "返回路径",
+          "version": "1.0",
+          "checked_at": null,
+          "platform": "all",
+          "content_type": "authored_demo"
+        },
+        {
+          "citation_id": "C2",
+          "chunk_id": "11-internal-demo-operations-01",
+          "document_title": "原型内部业务规范：频控、素材轮换与治理交接",
+          "snippet": "## 素材轮换\n同一素材反复出现的反馈与广告总量过高分开记录。模拟策略是准备至少3个差异化素材候选，先小范围比较重复反馈与有效触达，不机械按天自动下线。活动时间按素材有效期核验，不把含有历史日期直接视作过期。",
+          "score": 0.0458,
+          "source_type": "internal_simulated",
+          "source_url": null,
+          "publisher": "个人项目模拟业务团队",
+          "section": "素材轮换",
+          "version": "demo-ops-v1",
+          "checked_at": "2026-10-22",
+          "platform": "all",
+          "content_type": "authored_demo"
+        },
+        {
+          "citation_id": "C3",
+          "chunk_id": "08-official-internet-advertising-summary-01",
+          "document_title": "互联网广告管理办法：体验相关条款摘要",
+          "snippet": "## 第十条：弹出广告与开屏广告关闭\n相关广告应具备清晰可用的一键关闭方式。核查关闭障碍及关闭后继续弹出的行为。退出落地页、返回原媒体与关闭广告不是同一个动作，不能直接混用条款。",
+          "score": 0.042,
+          "source_type": "official_regulation_summary",
+          "source_url": "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/fgs/art/2023/art_d93a579afd45413e8576e4623fab348f.html",
+          "publisher": "国家市场监督管理总局",
+          "section": "第十条：弹出广告与开屏广告关闭",
+          "version": "2023年第72号令",
+          "checked_at": "2026-10-22",
+          "platform": "all",
+          "content_type": "human_summary"
+        },
+        {
+          "citation_id": "C4",
+          "chunk_id": "08-official-internet-advertising-summary-00",
+          "document_title": "互联网广告管理办法：体验相关条款摘要",
+          "snippet": "## 第九条：广告可识别性\n互联网广告应让消费者能够辨识其广告属性。这里只概括相关要求，不代替原文；需结合实际展示方式核验。",
+          "score": 0.0374,
+          "source_type": "official_regulation_summary",
+          "source_url": "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/fgs/art/2023/art_d93a579afd45413e8576e4623fab348f.html",
+          "publisher": "国家市场监督管理总局",
+          "section": "第九条：广告可识别性",
+          "version": "2023年第72号令",
+          "checked_at": "2026-10-22",
+          "platform": "all",
+          "content_type": "human_summary"
+        }
+      ],
+      "provider_raw_json": {
+        "labels": [
+          {
+            "label": "stale_material",
+            "confidence": 0.85
+          }
+        ],
+        "overall_risk": "low",
+        "confidence": 0.85,
+        "evidence": [
+          {
+            "source": "input",
+            "quote": "活动截止时间已经过了，广告还在展示",
+            "field": "feedback",
+            "citation_id": null
+          }
+        ],
+        "strategy_recommendations": [
+          {
+            "category": "creative",
+            "action": "verify_and_update_creative_validity",
+            "rationale": "用户反馈指出广告展示的活动已过期。需核验素材中是否包含具体日期或活动期限信息，并检查投放系统的有效期配置是否与素材内容一致。若素材本身未标注时间但关联的落地页活动已结束，应视为素材/落地页状态不同步导致的陈旧体验。",
+            "priority": "P1",
+            "expected_metric": "reduced_stale_complaint_rate",
+            "guardrail_metric": "ctr_impact"
+          }
+        ],
+        "requires_human_review": false,
+        "uncertainties": []
+      },
+      "before_checks": {
+        "labels_match": true,
+        "risk_match": true,
+        "status_match": true,
+        "expected_human_review_by_policy": false,
+        "review_match": true
+      },
+      "before_decision": {
+        "labels": [
+          {
+            "label": "stale_material",
+            "confidence": 0.85
+          }
+        ],
+        "overall_risk": "medium",
+        "assessment_status": "issue_detected",
+        "requires_human_review": false
+      }
+    },
+    {
+      "reference": {
+        "record_id": "V2-explicit-normal-2",
+        "group_id": "explicit-normal",
+        "split": "development",
+        "source_type": "synthetic_authored",
+        "annotation_status": "reviewed",
+        "reviewer": "project_owner_chat_confirmation",
+        "reviewed_at": "2026-10-22",
+        "review_method": "single_reviewer_candidate_confirmation",
+        "input": {
+          "title": "独立表达候选样例",
+          "ad_copy": "产品介绍与适用条件",
+          "feedback": "没有自动跳转，关闭按钮也正常",
+          "industry": "工具",
+          "media_scene": "天气",
+          "landing_type": "Web",
+          "material_format": "图文"
+        },
+        "gold_labels": [
+          "no_issue"
+        ],
+        "gold_risk": "low",
+        "gold_assessment_status": "no_explicit_issue"
+      },
+      "retrieved_citations": [
+        {
+          "citation_id": "C1",
+          "chunk_id": "01-navigation-return-00",
+          "document_title": "广告跳转与返回体验演示规范",
+          "snippet": "## 跳转触发\n广告跳转应由清晰、可预期的用户动作触发。自动跳转、误触即跳转或跳转目的地与按钮含义不一致，应标记为强制或非预期跳转，并进入人工核查。",
+          "score": 0.1725,
+          "source_type": "synthetic_demo",
+          "source_url": null,
+          "publisher": null,
+          "section": "跳转触发",
+          "version": "1.0",
+          "checked_at": null,
+          "platform": "all",
+          "content_type": "authored_demo"
+        },
+        {
+          "citation_id": "C2",
+          "chunk_id": "08-official-internet-advertising-summary-01",
+          "document_title": "互联网广告管理办法：体验相关条款摘要",
+          "snippet": "## 第十条：弹出广告与开屏广告关闭\n相关广告应具备清晰可用的一键关闭方式。核查关闭障碍及关闭后继续弹出的行为。退出落地页、返回原媒体与关闭广告不是同一个动作，不能直接混用条款。",
+          "score": 0.0839,
+          "source_type": "official_regulation_summary",
+          "source_url": "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/fgs/art/2023/art_d93a579afd45413e8576e4623fab348f.html",
+          "publisher": "国家市场监督管理总局",
+          "section": "第十条：弹出广告与开屏广告关闭",
+          "version": "2023年第72号令",
+          "checked_at": "2026-10-22",
+          "platform": "all",
+          "content_type": "human_summary"
+        },
+        {
+          "citation_id": "C3",
+          "chunk_id": "01-navigation-return-01",
+          "document_title": "广告跳转与返回体验演示规范",
+          "snippet": "## 返回路径\n从 Web、浏览器详情页或 Deeplink 返回原媒体时，应尽量保持路径短且入口可识别。需要连续多次返回、无法回到原场景或被迫停留，属于返回路径摩擦。建议记录返回成功率，并以误触返回率作为护栏。",
+          "score": 0.0746,
+          "source_type": "synthetic_demo",
+          "source_url": null,
+          "publisher": null,
+          "section": "返回路径",
+          "version": "1.0",
+          "checked_at": null,
+          "platform": "all",
+          "content_type": "authored_demo"
+        },
+        {
+          "citation_id": "C4",
+          "chunk_id": "11-internal-demo-operations-01",
+          "document_title": "原型内部业务规范：频控、素材轮换与治理交接",
+          "snippet": "## 素材轮换\n同一素材反复出现的反馈与广告总量过高分开记录。模拟策略是准备至少3个差异化素材候选，先小范围比较重复反馈与有效触达，不机械按天自动下线。活动时间按素材有效期核验，不把含有历史日期直接视作过期。",
+          "score": 0.0187,
+          "source_type": "internal_simulated",
+          "source_url": null,
+          "publisher": "个人项目模拟业务团队",
+          "section": "素材轮换",
+          "version": "demo-ops-v1",
+          "checked_at": "2026-10-22",
+          "platform": "all",
+          "content_type": "authored_demo"
+        }
+      ],
+      "provider_raw_json": {
+        "labels": [
+          {
+            "label": "no_issue",
+            "confidence": 0.95
+          }
+        ],
+        "overall_risk": "low",
+        "confidence": 0.95,
+        "evidence": [
+          {
+            "source": "input",
+            "quote": "没有自动跳转，关闭按钮也正常",
+            "field": "feedback",
+            "citation_id": null
+          }
+        ],
+        "strategy_recommendations": [],
+        "requires_human_review": false,
+        "uncertainties": []
+      },
+      "before_checks": {
+        "labels_match": true,
+        "risk_match": true,
+        "status_match": false,
+        "expected_human_review_by_policy": false,
+        "review_match": false
+      },
+      "before_decision": {
+        "labels": [
+          {
+            "label": "no_issue",
+            "confidence": 0.95
+          }
+        ],
+        "overall_risk": "low",
+        "assessment_status": "insufficient_evidence",
+        "requires_human_review": true
+      }
+    },
+    {
+      "reference": {
+        "record_id": "V2-uncertain-object-1",
+        "group_id": "uncertain-object",
+        "split": "development",
+        "source_type": "synthetic_authored",
+        "annotation_status": "reviewed",
+        "reviewer": "project_owner_chat_confirmation",
+        "reviewed_at": "2026-10-22",
+        "review_method": "single_reviewer_candidate_confirmation",
+        "input": {
+          "title": "独立表达候选样例",
+          "ad_copy": "产品介绍与适用条件",
+          "feedback": "感觉怪怪的，但我说不上来哪里不对",
+          "industry": "工具",
+          "media_scene": "天气",
+          "landing_type": "Web",
+          "material_format": "图文"
+        },
+        "gold_labels": [
+          "no_issue"
+        ],
+        "gold_risk": "low",
+        "gold_assessment_status": "insufficient_evidence"
+      },
+      "retrieved_citations": [
+        {
+          "citation_id": "C1",
+          "chunk_id": "01-navigation-return-01",
+          "document_title": "广告跳转与返回体验演示规范",
+          "snippet": "## 返回路径\n从 Web、浏览器详情页或 Deeplink 返回原媒体时，应尽量保持路径短且入口可识别。需要连续多次返回、无法回到原场景或被迫停留，属于返回路径摩擦。建议记录返回成功率，并以误触返回率作为护栏。",
+          "score": 0.1029,
+          "source_type": "synthetic_demo",
+          "source_url": null,
+          "publisher": null,
+          "section": "返回路径",
+          "version": "1.0",
+          "checked_at": null,
+          "platform": "all",
+          "content_type": "authored_demo"
+        },
+        {
+          "citation_id": "C2",
+          "chunk_id": "04-creative-quality-00",
+          "document_title": "素材清晰度与新鲜度演示规范",
+          "snippet": "## 清晰度\n关键信息应具有足够分辨率、字号与对比度。仅凭“看不懂”不能直接判定画面模糊，需要区分信息复杂、表达不清与视觉清晰度问题。",
+          "score": 0.023,
+          "source_type": "synthetic_demo",
+          "source_url": null,
+          "publisher": null,
+          "section": "清晰度",
+          "version": "1.0",
+          "checked_at": null,
+          "platform": "all",
+          "content_type": "authored_demo"
+        },
+        {
+          "citation_id": "C3",
+          "chunk_id": "08-official-internet-advertising-summary-01",
+          "document_title": "互联网广告管理办法：体验相关条款摘要",
+          "snippet": "## 第十条：弹出广告与开屏广告关闭\n相关广告应具备清晰可用的一键关闭方式。核查关闭障碍及关闭后继续弹出的行为。退出落地页、返回原媒体与关闭广告不是同一个动作，不能直接混用条款。",
+          "score": 0.0193,
+          "source_type": "official_regulation_summary",
+          "source_url": "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/fgs/art/2023/art_d93a579afd45413e8576e4623fab348f.html",
+          "publisher": "国家市场监督管理总局",
+          "section": "第十条：弹出广告与开屏广告关闭",
+          "version": "2023年第72号令",
+          "checked_at": "2026-10-22",
+          "platform": "all",
+          "content_type": "human_summary"
+        },
+        {
+          "citation_id": "C4",
+          "chunk_id": "11-internal-demo-operations-01",
+          "document_title": "原型内部业务规范：频控、素材轮换与治理交接",
+          "snippet": "## 素材轮换\n同一素材反复出现的反馈与广告总量过高分开记录。模拟策略是准备至少3个差异化素材候选，先小范围比较重复反馈与有效触达，不机械按天自动下线。活动时间按素材有效期核验，不把含有历史日期直接视作过期。",
+          "score": 0.0184,
+          "source_type": "internal_simulated",
+          "source_url": null,
+          "publisher": "个人项目模拟业务团队",
+          "section": "素材轮换",
+          "version": "demo-ops-v1",
+          "checked_at": "2026-10-22",
+          "platform": "all",
+          "content_type": "authored_demo"
+        }
+      ],
+      "provider_raw_json": {
+        "labels": [
+          {
+            "label": "unclear_material",
+            "confidence": 0.35
+          }
+        ],
+        "overall_risk": "low",
+        "confidence": 0.2,
+        "evidence": [
+          {
+            "source": "input",
+            "quote": "感觉怪怪的，但我说不上来哪里不对",
+            "field": "feedback",
+            "citation_id": null
+          }
+        ],
+        "strategy_recommendations": [
+          {
+            "category": "review",
+            "action": "人工核查",
+            "rationale": "用户反馈模糊（'感觉怪怪的'），未提供具体违规事实或技术故障描述。根据指令要求，模糊反馈不得补全不存在的事实，且单凭此类主观感受无法判定具体的体验问题类别（如清晰度、误导或跳转等）。需列出缺失信息并请求人工核查素材实际展示效果及落地页交互流程。",
+            "priority": "P2",
+            "expected_metric": "定性评估",
+            "guardrail_metric": "N/A"
+          }
+        ],
+        "requires_human_review": true,
+        "uncertainties": [
+          "用户反馈缺乏具体指向性，无法确定是视觉设计、文案逻辑、技术加载还是交互流程问题。",
+          "缺少素材截图或视频，无法验证是否存在 'unclear_material' (视觉模糊/信息不清) 或 'misleading_claim' (误导性宣称)。",
+          "缺少落地页访问日志，无法验证是否存在 'return_path_friction' (返回路径摩擦) 或 'forced_or_unexpected_jump' (强制跳转)。"
+        ]
+      },
+      "before_checks": {
+        "labels_match": false,
+        "risk_match": false,
+        "status_match": false,
+        "expected_human_review_by_policy": true,
+        "review_match": true
+      },
+      "before_decision": {
+        "labels": [
+          {
+            "label": "unclear_material",
+            "confidence": 0.35
+          }
+        ],
+        "overall_risk": "medium",
+        "assessment_status": "issue_detected",
+        "requires_human_review": true
+      }
+    },
+    {
+      "reference": {
+        "record_id": "V2-explicit-normal-1",
+        "group_id": "explicit-normal",
+        "split": "development",
+        "source_type": "synthetic_authored",
+        "annotation_status": "reviewed",
+        "reviewer": "project_owner_chat_confirmation",
+        "reviewed_at": "2026-10-22",
+        "review_method": "single_reviewer_candidate_confirmation",
+        "input": {
+          "title": "独立表达候选样例",
+          "ad_copy": "产品介绍与适用条件",
+          "feedback": "广告信息能看清，点击和返回都正常",
+          "industry": "工具",
+          "media_scene": "天气",
+          "landing_type": "Web",
+          "material_format": "图文"
+        },
+        "gold_labels": [
+          "no_issue"
+        ],
+        "gold_risk": "low",
+        "gold_assessment_status": "no_explicit_issue"
+      },
+      "retrieved_citations": [
+        {
+          "citation_id": "C1",
+          "chunk_id": "01-navigation-return-01",
+          "document_title": "广告跳转与返回体验演示规范",
+          "snippet": "## 返回路径\n从 Web、浏览器详情页或 Deeplink 返回原媒体时，应尽量保持路径短且入口可识别。需要连续多次返回、无法回到原场景或被迫停留，属于返回路径摩擦。建议记录返回成功率，并以误触返回率作为护栏。",
+          "score": 0.1637,
+          "source_type": "synthetic_demo",
+          "source_url": null,
+          "publisher": null,
+          "section": "返回路径",
+          "version": "1.0",
+          "checked_at": null,
+          "platform": "all",
+          "content_type": "authored_demo"
+        },
+        {
+          "citation_id": "C2",
+          "chunk_id": "08-official-internet-advertising-summary-01",
+          "document_title": "互联网广告管理办法：体验相关条款摘要",
+          "snippet": "## 第十条：弹出广告与开屏广告关闭\n相关广告应具备清晰可用的一键关闭方式。核查关闭障碍及关闭后继续弹出的行为。退出落地页、返回原媒体与关闭广告不是同一个动作，不能直接混用条款。",
+          "score": 0.0553,
+          "source_type": "official_regulation_summary",
+          "source_url": "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/fgs/art/2023/art_d93a579afd45413e8576e4623fab348f.html",
+          "publisher": "国家市场监督管理总局",
+          "section": "第十条：弹出广告与开屏广告关闭",
+          "version": "2023年第72号令",
+          "checked_at": "2026-10-22",
+          "platform": "all",
+          "content_type": "human_summary"
+        },
+        {
+          "citation_id": "C3",
+          "chunk_id": "08-official-internet-advertising-summary-02",
+          "document_title": "互联网广告管理办法：体验相关条款摘要",
+          "snippet": "## 第十一条：误导点击\n核查仿冒系统提示、虚假功能标志或奖励信息诱导点击的情况。用户投诉是调查线索，不足以单独确认违法。",
+          "score": 0.0507,
+          "source_type": "official_regulation_summary",
+          "source_url": "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/fgs/art/2023/art_d93a579afd45413e8576e4623fab348f.html",
+          "publisher": "国家市场监督管理总局",
+          "section": "第十一条：误导点击",
+          "version": "2023年第72号令",
+          "checked_at": "2026-10-22",
+          "platform": "all",
+          "content_type": "human_summary"
+        },
+        {
+          "citation_id": "C4",
+          "chunk_id": "04-creative-quality-00",
+          "document_title": "素材清晰度与新鲜度演示规范",
+          "snippet": "## 清晰度\n关键信息应具有足够分辨率、字号与对比度。仅凭“看不懂”不能直接判定画面模糊，需要区分信息复杂、表达不清与视觉清晰度问题。",
+          "score": 0.0353,
+          "source_type": "synthetic_demo",
+          "source_url": null,
+          "publisher": null,
+          "section": "清晰度",
+          "version": "1.0",
+          "checked_at": null,
+          "platform": "all",
+          "content_type": "authored_demo"
+        }
+      ],
+      "provider_raw_json": {
+        "labels": [
+          {
+            "label": "no_issue",
+            "confidence": 0.95
+          }
+        ],
+        "overall_risk": "low",
+        "confidence": 0.95,
+        "evidence": [
+          {
+            "source": "input",
+            "quote": "广告信息能看清，点击和返回都正常",
+            "field": "feedback",
+            "citation_id": null
+          }
+        ],
+        "strategy_recommendations": [],
+        "requires_human_review": false,
+        "uncertainties": []
+      },
+      "before_checks": {
+        "labels_match": true,
+        "risk_match": true,
+        "status_match": false,
+        "expected_human_review_by_policy": false,
+        "review_match": false
+      },
+      "before_decision": {
+        "labels": [
+          {
+            "label": "no_issue",
+            "confidence": 0.95
+          }
+        ],
+        "overall_risk": "low",
+        "assessment_status": "insufficient_evidence",
+        "requires_human_review": true
+      }
+    }
+  ]
+}

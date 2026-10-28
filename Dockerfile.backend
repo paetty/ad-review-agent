@@ -9,6 +9,7 @@ RUN pip install --no-cache-dir -r /app/backend/requirements.txt
 
 COPY backend /app/backend
 COPY data/policies /app/data/policies
+COPY data/evaluation /app/data/evaluation
 COPY data/synthetic_records.json /app/data/synthetic_records.json
 COPY docs /app/docs
 

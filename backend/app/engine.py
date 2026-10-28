@@ -1,7 +1,8 @@
 from __future__ import annotations
-import hashlib, json, time, uuid
+import hashlib, json, re, time, uuid
 from .schemas import AnalysisInput, AnalysisOutput, Citation, Evidence, LabelResult, ModelInfo, Recommendation
 from .taxonomy import CRITICAL_LABELS, HIGH_LABELS, KEYWORDS, NEGATION_TERMS, RISK_ORDER, VAGUE_FEEDBACK_CUES
+from .evidence_policy import ANALYSIS_DISCLAIMER, ANALYSIS_POLICY_VERSION, request_information_recommendation
 
 RECOMMENDATIONS = {
     "forced_or_unexpected_jump": ("product", "检查点击意图与跳转触发条件，提供明确返回入口", "降低非预期跳转和返回阻力", "P0", "非预期跳转反馈率", "落地页到达率"),
@@ -32,13 +33,27 @@ def enforce_rules(payload: dict) -> dict:
         names.discard("no_issue")
     expected = _risk(names or {"no_issue"})
     if RISK_ORDER[expected] > RISK_ORDER.get(payload.get("overall_risk", "low"), 0): payload["overall_risk"] = expected
-    if payload["overall_risk"] == "critical" or any(x["confidence"] < .62 for x in payload["labels"]): payload["requires_human_review"] = True
+    if payload["overall_risk"] in {"high", "critical"} or payload.get("assessment_status") == "insufficient_evidence" or any(x["confidence"] < .62 for x in payload["labels"]): payload["requires_human_review"] = True
     return payload
 
 def _is_negated(text: str, start: int) -> bool:
-    """Return True when a keyword is directly scoped by a Chinese negator."""
-    prefix = text[max(0, start - 8):start].replace(" ", "")
-    return any(prefix.endswith(term) for term in NEGATION_TERMS)
+    """Bounded negation grammar, limited to the current clause and known verbs.
+
+    Covers e.g. 没有遇到自动跳转 and 没有索取通讯录. It deliberately
+    does not treat any earlier 没有 as negating the rest of the sentence.
+    """
+    prefix = re.split(r"[，。！？；,!?;\n]|但是|但|而是|却|不过", text[:start])[-1]
+    prefix = re.sub(r"\s+", "", prefix)[-24:]
+    # These deny a denial, rather than denying the problem itself.
+    if re.search(r"(?:并非|不是)(?:没有|没|不)(?:遇到|出现|发生)?$", prefix):
+        return False
+    verbs = r"(?:遇到|出现|发生|发现|存在|看到|看见|显示|提示|要求|申请|索取|读取|获取|收集|提供|请求|开启|持续|再|再次|任何|相关|过|了|会|有)"
+    return bool(re.search(r"(?:" + "|".join(sorted(NEGATION_TERMS,key=len,reverse=True)) + r")" + verbs + r"*$", prefix))
+
+def positive_keyword_positions(text: str, word: str) -> list[int]:
+    lowered=text.lower()
+    return [hit.start() for hit in re.finditer(re.escape(word.lower()),lowered)
+            if not _is_negated(lowered,hit.start())]
 
 def match_keywords(fields: dict[str, str]) -> dict[str, list[tuple[str, str]]]:
     matched: dict[str, list[tuple[str, str]]] = {}
@@ -47,12 +62,8 @@ def match_keywords(fields: dict[str, str]) -> dict[str, list[tuple[str, str]]]:
         for field, text in fields.items():
             lowered = text.lower()
             for word in words:
-                start = lowered.find(word.lower())
-                while start >= 0:
-                    if not _is_negated(lowered, start):
-                        hits.append((field, word))
-                        break
-                    start = lowered.find(word.lower(), start + len(word))
+                if positive_keyword_positions(lowered,word):
+                    hits.append((field, word))
         if hits:
             matched[label] = hits
     return matched
@@ -69,7 +80,7 @@ class DemoEngine:
         for label, hits in matched.items():
             for field, word in hits[:2]:
                 text = fields[field]
-                pos = text.lower().find(word.lower())
+                pos = positive_keyword_positions(text,word)[0]
                 evidence.append(Evidence(source="input", field=field, quote=text[max(0,pos-18):pos+len(word)+28]))
         for c in citations[:2]: evidence.append(Evidence(source="retrieval", quote=c["snippet"][:180], citation_id=c["citation_id"]))
         recs = [Recommendation(category=(r:=RECOMMENDATIONS[label])[0], action=r[1], rationale=r[2], priority=r[3], expected_metric=r[4], guardrail_metric=r[5]) for label in matched]
@@ -78,7 +89,12 @@ class DemoEngine:
         elif matched == {"no_issue": []} and any(cue in item.feedback for cue in VAGUE_FEEDBACK_CUES):
             uncertainty.append("反馈表达较模糊，缺少可定位的问题、触发动作或结果；未据此推断具体风险。")
         if item.image_filename: uncertainty.append("Demo Mode 不支持视觉理解，本次仅分析文字和文件名元数据。")
-        if matched == {"no_issue": []}: uncertainty.append("输入未出现明确风险信号；不代表素材已通过法务或人工审核。")
+        explicit_normal = bool(re.search(r"正常|未发现|暂无问题|没有|并不|并未|不是|不会", item.feedback))
+        vague = any(cue in item.feedback for cue in VAGUE_FEEDBACK_CUES)
+        status = "issue_detected" if matched != {"no_issue": []} else "no_explicit_issue" if explicit_normal and not vague else "insufficient_evidence"
+        if status == "insufficient_evidence":
+            if not uncertainty: uncertainty.append("缺少可定位的具体操作或问题结果，需要补充信息。")
+            recs = [request_information_recommendation()]
         fingerprint = hashlib.sha256(json.dumps(item.model_dump(), ensure_ascii=False, sort_keys=True).encode()).hexdigest()
         latency = 120 + int(fingerprint[:4], 16) % 181
         input_tokens = max(40, len(joined) // 2)
@@ -89,8 +105,11 @@ class DemoEngine:
             "strategy_recommendations": [x.model_dump() for x in recs],
             "requires_human_review": bool(item.image_filename) or _risk(set(matched)) in {"high","critical"} or any(x.confidence < .62 for x in labels),
             "uncertainties": uncertainty,
+            "disclaimers": [ANALYSIS_DISCLAIMER],
+            "analysis_policy_version": ANALYSIS_POLICY_VERSION,
             "model_info": ModelInfo(provider="deterministic_rules", model="demo-engine-v1", mode="demo", latency_ms=latency, input_tokens=input_tokens, output_tokens=160+len(recs)*35, estimated_cost_usd=0, simulated=True).model_dump(),
             "prompt_version": prompt_version,
+            "assessment_status": status,
         }
         return AnalysisOutput.model_validate(enforce_rules(payload))
 

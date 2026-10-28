@@ -68,6 +68,12 @@ class EvaluationRun(Base):
     model_version: Mapped[str] = mapped_column(String); prompt_version: Mapped[str] = mapped_column(String)
     metrics_json: Mapped[dict] = mapped_column(JSON)
 
+class BusinessReport(Base):
+    __tablename__ = "business_reports"
+    id: Mapped[str] = mapped_column(String, primary_key=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
+    report_json: Mapped[dict] = mapped_column(JSON)
+
 class EvaluationItem(Base):
     __tablename__="evaluation_items"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)

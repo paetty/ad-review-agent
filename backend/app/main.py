@@ -1,5 +1,5 @@
 from __future__ import annotations
-import base64, csv, io, json, os
+import base64, csv, io, json, os, time
 from contextlib import asynccontextmanager
 from pathlib import Path
 from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
@@ -10,6 +10,8 @@ from sqlalchemy.orm import Session
 from .comprehensive import COMPREHENSIVE_OPTIONAL, COMPREHENSIVE_REQUIRED, aggregate_comprehensive, inspect_image, to_data_url
 from .database import SessionLocal
 from .agent import resume_agent_run, start_agent_run
+from .business import router as business_router
+from .evaluation_center import router as evaluation_router, mark_interrupted_runs
 from .evaluation import calculate_metrics
 from .experiment import assign_experiment
 from .models import Analysis, ExperimentAssignment, HumanReview, PromptVersion
@@ -19,8 +21,13 @@ from .schemas import AgentResumeInput, AnalysisInput, AnalysisOutput, Experiment
 from .service import ROOT, analyze_and_save, demo_mode, init_db, persist_analysis, save_review
 
 @asynccontextmanager
-async def lifespan(app): init_db(); yield
+async def lifespan(app):
+    init_db()
+    mark_interrupted_runs()
+    yield
 app=FastAPI(title="Ad Experience Insight Assistant API",version="1.0.0",lifespan=lifespan)
+app.include_router(business_router)
+app.include_router(evaluation_router)
 app.add_middleware(CORSMiddleware,allow_origins=[os.getenv("FRONTEND_ORIGIN","http://localhost:3000")],allow_credentials=False,allow_methods=["*"],allow_headers=["*"])
 def get_db():
     db=SessionLocal()
@@ -73,8 +80,8 @@ async def resume_agent(thread_id:str,payload:AgentResumeInput,db:Session=Depends
     if output:
         row=db.get(Analysis,output["analysis_id"])
         if row:
-            save_review(db,row,ReviewInput(reviewer="agent_human_reviewer",decision=payload.decision,notes=payload.notes))
-    return {"thread_id":thread_id,"status":result.get("status","completed"),"output":output,"trace":result.get("trace",[]),"human_decision":result.get("human_decision")}
+            save_review(db,row,ReviewInput(reviewer="agent_human_reviewer",**payload.model_dump()))
+    return {"thread_id":thread_id,"status":result.get("status","completed"),"output":output,"corrected_output":result.get("corrected_output"),"trace":result.get("trace",[]),"human_decision":result.get("human_decision")}
 
 @app.get("/api/agent/graph")
 def agent_graph():
@@ -255,10 +262,12 @@ async def run_evaluation(db:Session=Depends(get_db)):
     if not demo_mode() and os.getenv("ALLOW_PROVIDER_EVALUATION","false").lower()!="true":
         raise HTTPException(400,detail={"code":"provider_evaluation_disabled","message":"真实模型批量评测默认关闭；确认成本后设置 ALLOW_PROVIDER_EVALUATION=true"})
     records=json.loads((ROOT/"data"/"synthetic_records.json").read_text(encoding="utf-8")); eval_rows=[x for x in records if x["split"]=="evaluation"]
-    gold=[]; pred=[]; risks=[]; reviews=[]; latencies=[]
+    gold=[]; pred=[]; risks=[]; reviews=[]; latencies=[]; predicted_risks=[]; actual_latencies=[]
     for row in eval_rows:
+        started=time.perf_counter()
         result=await analyze_and_save(db,AnalysisInput(**row["input"])); gold.append(set(row["gold_labels"])); pred.append({x.label for x in result.labels}); risks.append(row["gold_risk"]); reviews.append(result.requires_human_review); latencies.append(result.model_info.latency_ms)
-    metrics=calculate_metrics(gold,pred,risks,reviews); metrics.update({"records":len(eval_rows),"average_latency_ms":round(sum(latencies)/len(latencies)),"estimated_cost_per_analysis_usd":0,"mode":"deterministic_demo","warning":"这些是本地合成评测结果，不代表真实线上模型或业务效果。"})
+        predicted_risks.append(result.overall_risk); actual_latencies.append((time.perf_counter()-started)*1000)
+    metrics=calculate_metrics(gold,pred,risks,reviews,predicted_risks); metrics.update({"records":len(eval_rows),"average_latency_ms":round(sum(latencies)/len(latencies)),"latency_is_simulated":demo_mode(),"average_measured_pipeline_latency_ms":round(sum(actual_latencies)/len(actual_latencies),2),"estimated_cost_per_analysis_usd":0 if demo_mode() else None,"mode":"deterministic_demo" if demo_mode() else "provider","unique_feedback_texts":len({x['input']['feedback'] for x in eval_rows}),"warning":"旧合成集仅用于回归检查；风险召回按预测风险等级计算。模型未定价时费用未知，不记为0。"})
     report="# 评测报告\n\n> 本报告由本地合成评测集实际运行生成，不代表线上业务效果。\n\n```json\n"+json.dumps(metrics,ensure_ascii=False,indent=2)+"\n```\n"
     (ROOT/"docs"/"evaluation-report.md").write_text(report,encoding="utf-8")
     return metrics

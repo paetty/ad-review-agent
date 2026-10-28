@@ -10,7 +10,7 @@ from langgraph.types import Command, interrupt
 
 from .database import SessionLocal
 from .pii import detect_pii_text
-from .schemas import AnalysisInput
+from .schemas import AnalysisInput, AnalysisOutput, AgentResumeInput
 from .service import analyze_item, retriever
 
 
@@ -20,6 +20,7 @@ class AdReviewAgentState(TypedDict, total=False):
     output: dict[str, Any]
     status: Literal["running", "awaiting_review", "completed"]
     human_decision: dict[str, Any]
+    corrected_output: dict[str, Any]
     trace: Annotated[list[dict[str, Any]], operator.add]
 
 
@@ -39,7 +40,7 @@ def validate_input(state: AdReviewAgentState) -> dict:
 def retrieve_policy(state: AdReviewAgentState) -> dict:
     item=AnalysisInput.model_validate(state["input"])
     query=" ".join([item.title,item.ad_copy,item.feedback,item.first_three_seconds or "",item.industry,item.media_scene,item.landing_type])
-    citations=retriever.search(query,top_k=4,scenario=item.media_scene)
+    citations=retriever.search(query,top_k=4,scenario=item.media_scene,platform=item.platform)
     return {"citations":citations,"trace":_event("retrieve_policy",f"检索到 {len(citations)} 条可追溯规则")}
 
 
@@ -58,12 +59,23 @@ def route_review(state: AdReviewAgentState) -> Literal["human_review", "finalize
 def human_review(state: AdReviewAgentState) -> dict:
     output=state["output"]
     decision=interrupt({
-        "reason":"高风险、低置信度或视觉信息未确认，必须由人工决定后才能完成任务。",
+        "reason":"高风险、低置信度、证据不足或视觉信息未确认，必须由人工决定后才能完成任务。",
         "analysis_id":output["analysis_id"],
         "risk":output["overall_risk"],
         "labels":[item["label"] for item in output["labels"]],
     })
-    return {"human_decision":decision,"trace":_event("human_review","人工复核结果已写入执行状态")}
+    review=AgentResumeInput.model_validate(decision)
+    corrected=dict(output)
+    if review.decision=="modified":
+        corrected.update(labels=[{"label":x,"confidence":1.0} for x in review.corrected_labels],
+                         overall_risk=review.corrected_risk,
+                         strategy_recommendations=[x.model_dump() for x in review.edited_recommendations])
+        corrected["assessment_status"]="no_explicit_issue" if review.corrected_labels==["no_issue"] else "issue_detected"
+        corrected["requires_human_review"]=True
+        if review.recommendation_label_links is not None:
+            corrected["recommendation_label_links"]=review.recommendation_label_links
+        AnalysisOutput.model_validate(corrected)
+    return {"human_decision":decision,"corrected_output":corrected,"trace":_event("human_review","人工修正版已保存到执行状态，AI原始结论保留")}
 
 
 def finalize(state: AdReviewAgentState) -> dict:

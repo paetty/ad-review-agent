@@ -58,4 +58,5 @@ def test_low_resolution_image_raises_aggregate_risk_to_medium(monkeypatch):
     assert response.status_code==200
     ad=response.json()["ads"][0]
     assert ad["overall_risk"]=="medium"
-    assert ad["dominant_causes"][0]["label"]=="unclear_material"
+    assert ad["dominant_causes"]==[]
+    assert ad["asset_findings"][0]["signal"]=="readability_check"

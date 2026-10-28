@@ -24,6 +24,11 @@ class OpenAICompatibleProvider:
     async def generate(self, messages: list[dict], schema: dict) -> ProviderResponse:
         if not self.configured: raise ProviderError("validation_error", "Provider configuration incomplete")
         payload={"model":self.model,"messages":messages,"temperature":0,"response_format":{"type":"json_schema","json_schema":{"name":"ad_experience_analysis","strict":True,"schema":schema}}}
+        thinking=os.getenv("LLM_ENABLE_THINKING", "").strip().lower()
+        if thinking:
+            if thinking not in {"true", "false"}:
+                raise ProviderError("validation_error", "LLM_ENABLE_THINKING 必须为 true、false 或留空")
+            payload["enable_thinking"]=thinking=="true"
         started=time.perf_counter()
         for attempt in range(3):
             try:

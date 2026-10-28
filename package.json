@@ -11,6 +11,8 @@
     "build": "vinext build",
     "start": "vinext start",
     "test": "vitest run && node --test tests/rendered-html.test.mjs",
+    "test:navigation": "node --test tests/navigation-lifecycle.test.mjs",
+    "test:evaluation-ui": "node --test tests/evaluation-center.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"
   },

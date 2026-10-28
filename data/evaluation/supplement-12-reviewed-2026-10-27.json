@@ -1,0 +1,22 @@
+{
+  "version": "supplement-12-draft-v1",
+  "source_type": "synthetic_demo",
+  "annotation_status": "reviewed_single_owner",
+  "reviewer": "project_owner_chat_confirmation_2026-10-27",
+  "split": "development",
+  "warning": "Proposed text-level clues and demo risk priorities, not verified ad violations. Do not score before approval. critical/high require review; medium concrete clues do not force review under current minimum policy. No model calls have been made.",
+  "cases": [
+    {"id":"S01","feedback":"我没碰广告，它自己打开了一个网站，浏览器提示是钓鱼页面。","gold_labels":["forced_or_unexpected_jump","malicious_or_suspicious_redirect"],"risk":"critical","status":"issue_detected","review":true,"evidence":["我没碰广告，它自己打开了一个网站","浏览器提示是钓鱼页面"],"required_action":"建议暂停自动放量，核查触发动作、域名和安全告警。","forbidden_inference":"不能认定实际发生诈骗或损失。"},
+    {"id":"S02","feedback":"进入商品页后返回很多次也回不去，还要求读取通讯录才能继续看。","gold_labels":["return_path_friction","potential_privacy_risk"],"risk":"critical","status":"issue_detected","review":true,"evidence":["返回很多次也回不去","要求读取通讯录才能继续看"],"required_action":"核查返回链路及权限必要性，建议暂停自动放量并人工核查。","forbidden_inference":"不能声称已经上传或泄露通讯录。"},
+    {"id":"S03","feedback":"广告说每天稳赚，点开后浏览器又提示这是钓鱼网站。","gold_labels":["misleading_claim","malicious_or_suspicious_redirect"],"risk":"critical","status":"issue_detected","review":true,"evidence":["广告说每天稳赚","浏览器又提示这是钓鱼网站"],"required_action":"核查宣传依据和网站安全，建议暂停自动放量。","forbidden_inference":"不能推断用户已付款或被骗。"},
+    {"id":"S04","feedback":"才几分钟就一直弹广告，而且总是这条一模一样的素材。","gold_labels":["excessive_ad_frequency","repetitive_material"],"risk":"medium","status":"issue_detected","review":false,"evidence":["才几分钟就一直弹广告","总是这条一模一样的素材"],"required_action":"分别核查曝光频次和素材轮换。","forbidden_inference":"不能编造具体曝光次数或最优频控上限。"},
+    {"id":"S05","feedback":"优惠条件的文字太小看不清，活动截止日期也已经过了。","gold_labels":["unclear_material","stale_material"],"risk":"medium","status":"issue_detected","review":false,"evidence":["文字太小看不清","活动截止日期也已经过了"],"required_action":"核对实际展示字号及活动有效期。","forbidden_inference":"用户报告不是已核实的日期或素材事实。"},
+    {"id":"S06","feedback":"视频前三秒只有空镜，后面出现的优惠说明文字太小看不清。","gold_labels":["weak_first_three_seconds","unclear_material"],"risk":"medium","status":"issue_detected","review":false,"evidence":["视频前三秒只有空镜","优惠说明文字太小看不清"],"required_action":"核查视频开场及字幕可读性。","forbidden_inference":"不能声称已经观看视频或测得留存下降。"},
+    {"id":"S07","feedback":"广告图片内容低俗，点开以后又返回很多次才回到原页面。","gold_labels":["vulgar_or_inappropriate_content","return_path_friction"],"risk":"high","status":"issue_detected","review":true,"evidence":["广告图片内容低俗","返回很多次才回到原页面"],"required_action":"人工查看素材语境并核查返回链路。","forbidden_inference":"不能描述未提供的裸露画面或直接认定违法。"},
+    {"id":"S08","feedback":"我没有遇到自动跳转，返回也正常，但浏览器确实提示这个落地页是恶意网站。","gold_labels":["malicious_or_suspicious_redirect"],"risk":"critical","status":"issue_detected","review":true,"evidence":["浏览器确实提示这个落地页是恶意网站"],"required_action":"保留安全告警线索并人工核查，建议暂停自动放量。","forbidden_inference":"不得把被否定的跳转和返回问题列为正例。"},
+    {"id":"S09","feedback":"我有点怀疑它是不是诈骗，但没有看到具体承诺，也没点开过。","gold_labels":["no_issue"],"risk":"low","status":"insufficient_evidence","review":true,"evidence":["我有点怀疑它是不是诈骗","没有看到具体承诺，也没点开过"],"required_action":"收集文案、截图或具体异常；按疑似诈骗线索优先核查。","forbidden_inference":"不能仅凭候选猜测确认诈骗类别；low不表示已确认安全。"},
+    {"id":"S10","feedback":"已经确认不是钓鱼网站，也没有索取通讯录，关闭和返回都正常。","gold_labels":["no_issue"],"risk":"low","status":"no_explicit_issue","review":false,"evidence":["已经确认不是钓鱼网站","没有索取通讯录","关闭和返回都正常"],"required_action":"记录用户明确否定问题，不强制复核。","forbidden_inference":"不能因钓鱼或通讯录关键词升级风险，也不能把用户声明当作系统独立核验。"},
+    {"id":"S11","feedback":"我没点击广告按钮，它自己打开了下载页面；退出来后又立刻被拉回去。","gold_labels":["forced_or_unexpected_jump","return_path_friction"],"risk":"high","status":"issue_detected","review":true,"evidence":["它自己打开了下载页面","退出来后又立刻被拉回去"],"required_action":"核查触发条件和退出后重新进入的问题。","forbidden_inference":"不能根据下载页面就认定病毒或应用已安装。"},
+    {"id":"S12","feedback":"我没有同意授权，广告页面却显示已经获取了我的定位。","gold_labels":["potential_privacy_risk"],"risk":"critical","status":"issue_detected","review":true,"evidence":["我没有同意授权","广告页面却显示已经获取了我的定位"],"required_action":"建议暂停自动放量，核查权限记录、页面提示和实际数据行为。","forbidden_inference":"不能仅根据页面文字确认实际获取了定位或发生泄露。"}
+  ]
+}

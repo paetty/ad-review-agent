@@ -16,7 +16,7 @@ def test_csv_validation_and_sensitive_columns():
         assert res.json()["detail"]["code"]=="policy_guardrail_triggered"
 
 def test_api_key_not_in_frontend_or_logs(monkeypatch):
-    secret="sk-demo-secret-should-never-leak"; monkeypatch.setenv("LLM_API_KEY",secret)
+    secret="synthetic-credential-for-test-only"; monkeypatch.setenv("LLM_API_KEY",secret)
     root=Path(__file__).resolve().parents[2]
     frontend="\n".join(p.read_text(encoding="utf-8") for p in (root/"app").rglob("*.ts*") if ".test." not in p.name)
     assert secret not in frontend and "LLM_API_KEY" not in frontend

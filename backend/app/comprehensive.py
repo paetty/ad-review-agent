@@ -87,6 +87,7 @@ def aggregate_comprehensive(rows: Iterable[dict], image_catalog: dict[str, dict]
     image_names_used: set[str] = set()
 
     for ad_id, items in grouped.items():
+        asset_findings: list[dict] = []
         label_counts: Counter[str] = Counter()
         evidence: list[str] = []
         recommendations: list[str] = []
@@ -125,7 +126,7 @@ def aggregate_comprehensive(rows: Iterable[dict], image_catalog: dict[str, dict]
 
         for meta in ad_images.values():
             if meta["basic_findings"]:
-                label_counts["unclear_material"] += 1
+                asset_findings.append({"filename":meta["filename"],"signal":"readability_check","findings":meta["basic_findings"],"status":"requires_verification"})
                 requires_review = True
                 if RISK_ORDER[risk] < RISK_ORDER["medium"]:
                     risk = "medium"
@@ -154,6 +155,7 @@ def aggregate_comprehensive(rows: Iterable[dict], image_catalog: dict[str, dict]
             "recommendations": recommendations[:5],
             "images": list(ad_images.values()),
             "missing_images": sorted(missing_images),
+            "asset_findings": asset_findings,
         })
 
     ads.sort(key=lambda x: (-RISK_ORDER[x["overall_risk"]], -x["feedback_count"], x["ad_id"]))

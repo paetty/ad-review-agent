@@ -7,8 +7,8 @@
 ```powershell
 .venv\Scripts\python.exe -m pytest backend/tests -q
 npm run lint
-npm test
 npm run build
+npm test
 ```
 
 ## 提交要求
