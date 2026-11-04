@@ -13,6 +13,7 @@
     "test": "vitest run && node --test tests/rendered-html.test.mjs",
     "test:navigation": "node --test tests/navigation-lifecycle.test.mjs",
     "test:evaluation-ui": "node --test tests/evaluation-center.test.mjs",
+    "test:workspace": "node --test --test-concurrency=1 tests/navigation-lifecycle.test.mjs tests/workspace-v2.test.mjs tests/evaluation-center.test.mjs tests/workspace-live.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"
   },

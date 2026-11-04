@@ -39,7 +39,7 @@ test("select dataset, preview, run rules and inspect persisted differences",{tim
   await page.getByLabel("只看不符合参考或调用失败").check();
   await page.getByText("S05 · 存在差异",{exact:false}).first().click();
   await page.getByRole("cell",{name:"素材不清晰、素材陈旧/过期",exact:true}).waitFor();
-  await page.getByRole("button",{name:"单条分析",exact:true}).click();
+  await page.getByRole("button",{name:"分析任务",exact:true}).click();
   await page.getByRole("button",{name:"评测中心",exact:true}).click();
   assert.equal(await selector.inputValue(),"supplement");
   await page.getByText(/进度：12\/12；调用失败：0条/).waitFor();

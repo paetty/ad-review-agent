@@ -73,19 +73,19 @@ for (const scenario of scenarios) {
       await page.goto(baseUrl, { waitUntil: "networkidle" });
       const steps = [
         ["人工复核", "人工复核队列", "/api/analyses"],
-        ["Prompt 与规则", "Prompt、标签与演示规范", "/api/prompts"],
-        ["项目复盘", "个人作品复盘", null],
+        ["知识库与配置", "知识库与配置", "/api/prompts"],
+        ["项目说明与复盘", "个人作品复盘", null],
         ["人工复核", "人工复核队列", "/api/analyses"],
-        ["项目概览", "把分散反馈变成可追溯的策略闭环", "/api/overview"],
-        ["Prompt 与规则", "Prompt、标签与演示规范", "/api/prompts"],
-        ["项目复盘", "个人作品复盘", null],
+        ["工作台", "让每一条反馈，都有清晰的处理路径", "/api/overview"],
+        ["知识库与配置", "知识库与配置", "/api/prompts"],
+        ["项目说明与复盘", "个人作品复盘", null],
       ];
       for (const [button, heading, endpoint] of steps) {
-        const response = endpoint && !scenario.delay && !visited.includes(button) && button !== "项目概览"
+        const response = endpoint && !scenario.delay && !visited.includes(button) && button !== "工作台"
           ? page.waitForResponse(r => new URL(r.url()).pathname === endpoint)
           : null;
         await page.getByRole("button", { name: button, exact: true }).click();
-        await page.getByRole("heading", { name: heading, exact: true }).waitFor();
+        await page.getByRole("heading", { name: heading, exact: true, level: 3 }).waitFor();
         if (response) await response;
         visited.push(button);
       }
@@ -107,50 +107,3 @@ for (const scenario of scenarios) {
   });
 }
 
-test("forms, completed agent results and pending business requests survive navigation", {timeout:60000}, async()=>{
- const browser=await launchBrowser();
- const page=await browser.newPage({viewport:{width:1440,height:1000}});
- page.setDefaultTimeout(8000);
- const errors=[];page.on("pageerror",e=>errors.push(e.message));
- let agentCalls=0,businessCalls=0,release;
- const delayed=new Promise(resolve=>{release=resolve});
- const output={analysis_id:"synthetic-navigation",labels:[{label:"return_path_friction",confidence:.8}],overall_risk:"high",confidence:.8,evidence:[],citations:[],strategy_recommendations:[],requires_human_review:true,uncertainties:[],model_info:{provider:"fixture",model:"no-real-model",latency_ms:1,input_tokens:0,output_tokens:0,estimated_cost_usd:0,simulated:true},prompt_version:"test",assessment_status:"issue_detected"};
- await page.route("**/api/**",async route=>{
-  const request=route.request(),pathname=new URL(request.url()).pathname;
-  let body;
-  if(pathname==="/api/health")body={mode:"demo"};
-  else if(pathname==="/api/overview")body={risk_distribution:{low:0},today_analyses:0};
-  else if(pathname==="/api/agent/runs"&&request.method()==="POST"){
-   agentCalls++;body={thread_id:"synthetic-thread",status:"awaiting_review",output,trace:[],interrupt:{reason:"合成等待人工"}};
-  }else if(pathname==="/api/business/demo-input")body={synthetic:true};
-  else if(pathname==="/api/business/reports"&&request.method()==="POST"){
-   businessCalls++;await delayed;
-   body={report_id:"synthetic-report",dataset_source:"synthetic",elapsed_ms_measured:1,metric_boundary:"合成测试",summary:{feedback_rows:6,cases:0,pending_review:0,human_reviewed:0,handoff_ready:true},cases:[]};
-  }else throw Error("Unexpected API "+pathname);
-  await route.fulfill({status:200,contentType:"application/json",body:JSON.stringify(body)});
- });
- try{
-  await page.goto(baseUrl,{waitUntil:"networkidle"});
-  await page.getByRole("button",{name:"Agent 工作台",exact:true}).click();
-  const title=page.locator('section:not([hidden]) input:visible').first();
-  await title.fill("保留输入的合成测试");
-  await page.getByRole("button",{name:"启动Agent任务",exact:true}).click();
-  await page.getByText("合成等待人工",{exact:true}).waitFor();
-  await page.getByRole("button",{name:"单条分析",exact:true}).click();
-  await page.getByRole("heading",{name:"单条体验诊断",exact:true}).waitFor();
-  await page.getByRole("button",{name:"Agent 工作台",exact:true}).click();
-  assert.equal(await title.inputValue(),"保留输入的合成测试");
-  await page.getByText("合成等待人工",{exact:true}).waitFor();
-  assert.equal(agentCalls,1);
-  await page.getByRole("button",{name:"业务闭环",exact:true}).click();
-  const requestStarted=page.waitForRequest(r=>new URL(r.url()).pathname==="/api/business/reports");
-  await page.getByRole("button",{name:"运行配套模拟案例",exact:true}).click();
-  await requestStarted;
-  await page.getByRole("button",{name:"单条分析",exact:true}).click();
-  release();
-  await page.getByRole("button",{name:"业务闭环",exact:true}).click();
-  await page.getByText("来源：synthetic；本次实测处理耗时 1ms。耗时包含当前分析流程，不代表已测真实模型。",{exact:true}).waitFor();
-  assert.equal(businessCalls,1);
-  assert.deepEqual(errors,[]);
- }finally{release();await browser.close();}
-});

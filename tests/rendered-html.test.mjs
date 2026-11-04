@@ -30,7 +30,8 @@ test("server-renders the ad assistant shell", async () => {
 
   const html = await response.text();
   assert.match(html, /<title>广告素材体验分析与策略建议助手<\/title>/i);
-  assert.match(html, /把分散反馈变成可追溯的策略闭环/);
+  assert.match(html, /让每一条反馈，都有清晰的处理路径/);
+  assert.match(html, /知识库与配置/);
   assert.match(html, /Deterministic Demo Mode/);
   assert.match(html, /AI 建议，仅供辅助判断/);
   assert.doesNotMatch(html, /LLM_API_KEY|sk-[a-z0-9_-]+/i);
