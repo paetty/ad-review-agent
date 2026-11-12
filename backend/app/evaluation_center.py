@@ -15,6 +15,7 @@ from .evaluation import calculate_metrics
 from .schemas import AnalysisInput
 from .provider import OpenAICompatibleProvider, ProviderError
 from .service import ROOT, analyze_item
+from .enterprise_settings import ENABLED as ENTERPRISE_DEMO
 
 router=APIRouter(prefix="/api/evaluations",tags=["统一评测中心"])
 DEFINITIONS={
@@ -68,9 +69,11 @@ def catalog():
 
 @router.post("/preview")
 def preview_endpoint(selection:Selection):
+ if ENTERPRISE_DEMO and selection.mode != "rules":raise HTTPException(403,"企业演示仅开放规则基线评测")
  return preview(selection)
 
 def reserve_run(request:RunRequest)->tuple[int,list[dict],dict,dict]:
+ if ENTERPRISE_DEMO and request.mode != "rules":raise HTTPException(403,"企业演示仅开放规则基线评测")
  rows,meta=load_dataset(request.dataset)
  if meta["sha256"]!=request.dataset_sha256:raise HTTPException(409,"数据集已变化，请重新预览")
  provider=OpenAICompatibleProvider()

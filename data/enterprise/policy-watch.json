@@ -1,0 +1,50 @@
+[
+  {
+    "id": "platform-huawei-202609",
+    "title": "华为广告 2026 年 9 月典型驳回案例",
+    "source_type": "peer_platform",
+    "publisher": "华为开发者联盟",
+    "source_url": "https://developer.huawei.com/consumer/cn/doc/promotion/ads-gpbh202609-0000002789513193/",
+    "published": "2026-09",
+    "effective": null,
+    "scope": "同业平台的促销广告审核参考",
+    "action": "抽查限时、0 元、新人优惠等素材是否清楚提示参与条件，结合自身场景判断是否增加检查项。",
+    "status": "公开案例参考 · 待评估"
+  },
+  {
+    "id": "reg-internet-ads-governance-202604",
+    "title": "互联网广告市场秩序整治重点任务",
+    "source_type": "regulatory",
+    "publisher": "国家市场监督管理总局",
+    "source_url": "https://www.samr.gov.cn/xw/zj/art/2026/art_b4edf2fdf2614fa8bda3f64f60cc1883.html",
+    "published": "2026-04-23",
+    "effective": null,
+    "scope": "互联网广告监管工作部署，涉及直播广告、AI 生成式广告、弹窗广告等",
+    "action": "复盘已有反馈中是否反复出现弹窗关闭困难、误触跳转或 AI 虚假宣传，并评估是否补充抽查样本。",
+    "status": "公开监管动态 · 待评估业务关联"
+  },
+  {
+    "id": "reg-live-commerce-17",
+    "title": "《直播电商监督管理办法》第十七条",
+    "source_type": "regulatory",
+    "publisher": "国家市场监督管理总局、国家互联网信息办公室",
+    "source_url": "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/fgs/art/2026/art_ce66ea61fcec4583b5dbd677f470088b.html",
+    "published": "2025-12-18",
+    "effective": "2026-02-01",
+    "scope": "直播电商平台的相关经营活动",
+    "action": "关注利用 AI 编造虚假商业信息或假冒他人宣传的直播案例，人工核查素材和事实依据。",
+    "status": "已核对原文 · 待评估业务适用性"
+  },
+  {
+    "id": "demo-new-buyer-offer",
+    "title": "新人优惠资格核查",
+    "source_type": "synthetic_demo",
+    "publisher": "模拟平台 A",
+    "source_url": null,
+    "published": null,
+    "effective": null,
+    "scope": "虚构的新人优惠广告核查场景",
+    "action": "同时检查外层素材与落地页首屏的资格提示，缺少截图或活动细则时记录待补证据。",
+    "status": "合成演示 · 待核查"
+  }
+]

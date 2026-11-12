@@ -64,6 +64,10 @@ Ad Experience Insight Assistant 是面向广告商业化产品经理、体验治
 
 ## 快速启动
 
+工作台的「监测与策略」提供[日常安全检测与策略效果检测](docs/ad-diagnostics-prompts.md)，可直接运行合成示例或上传脱敏 CSV。
+
+可选的[模拟企业工作台](docs/enterprise-workspace-mvp.md)支持用模拟工号登录同一个共享工作台，并提供风险趋势和独立的行业规范动态入口。它在 3001／8016 端口运行，使用独立 SQLite 演示库。
+
 要求 Node.js 22.13+、Python 3.11+。
 
 ```bash

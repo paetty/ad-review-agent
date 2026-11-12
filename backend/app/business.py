@@ -11,7 +11,7 @@ from collections import Counter, defaultdict
 from datetime import date
 from typing import Literal
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import Response
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator, model_validator
 from sqlalchemy.orm import Session
@@ -24,6 +24,7 @@ from .schemas import AnalysisInput
 from .service import _recommendation, analyze_item
 from .engine import _risk
 from .taxonomy import LABELS, LABEL_NAMES, RISK_ORDER
+from .enterprise_auth import reviewer_identity
 
 router = APIRouter(prefix="/api/business", tags=["business-workflow"])
 
@@ -252,7 +253,7 @@ def read_report(report_id: str, db: Session = Depends(get_db)):
 
 
 @router.post("/reports/{report_id}/cases/{case_id}/review")
-def review_case(report_id: str, case_id: str, payload: ReportReview, db: Session = Depends(get_db)):
+def review_case(report_id: str, case_id: str, payload: ReportReview, request: Request, db: Session = Depends(get_db)):
     row = db.get(BusinessReport, report_id)
     if not row: raise HTTPException(404, "报告不存在")
     report = copy.deepcopy(row.report_json)
@@ -260,7 +261,7 @@ def review_case(report_id: str, case_id: str, payload: ReportReview, db: Session
     if case is None: raise HTTPException(404, "问题单不存在")
     if payload.decision != "request_info" and not payload.evidence_confirmed:
         raise HTTPException(400, "需明确确认已完成所需人工核验；否则请选择补充信息")
-    case["review_history"].append(payload.model_dump())
+    case["review_history"].append(payload.model_dump() | {"reviewer": reviewer_identity(request, payload.reviewer)})
     if payload.decision == "request_info": case["handoff_status"] = "needs_information"
     else:
         case["handoff_status"] = "human_reviewed"

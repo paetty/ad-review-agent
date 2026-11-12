@@ -2,34 +2,46 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, jsx-a11y/label-has-associated-control */
 import { useCallback, useEffect, useState } from "react";
 import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { api, API } from "../lib/api";
+import { api, API, ENTERPRISE_DEMO } from "../lib/api";
 import { BusinessWorkbench } from "./BusinessWorkbench";
 import { AgentReviewEditor } from "./AgentReviewEditor";
 import { RetainedPage } from "./RetainedPage";
 import { EvaluationCenter } from "./EvaluationCenter";
 import { WorkspaceChrome, type Screen } from "./WorkspaceChrome";
 import { assessmentTitle, resultLabelName } from "../lib/assessment";
+import { StaffGate, type Staff } from "./EnterpriseWorkspace";
+import { IndustryWatch, WorkspaceRiskTrend } from "./WorkspaceInsights";
+import { DiagnosticsWorkspace } from "./DiagnosticsWorkspace";
 
 type Result={analysis_id:string;labels:{label:string;confidence:number}[];overall_risk:string;confidence:number;evidence:{source:string;quote:string;citation_id?:string}[];citations:{citation_id:string;document_title:string;snippet:string;score:number;source_type?:string;source_url?:string;content_type?:string}[];strategy_recommendations:{category:string;action:string;rationale:string;priority:string;expected_metric:string;guardrail_metric:string}[];requires_human_review:boolean;uncertainties:string[];model_info:{provider:string;model:string;latency_ms:number;input_tokens:number;output_tokens:number;estimated_cost_usd:number|null;simulated:boolean};prompt_version:string;assessment_status?:string;disclaimers?:string[];abstained_labels?:{label:string;confidence:number}[];analysis_policy_version?:string};
 const names:Record<string,string>={forced_or_unexpected_jump:"强制/非预期跳转",malicious_or_suspicious_redirect:"恶意/可疑重定向",misleading_claim:"误导宣传",vulgar_or_inappropriate_content:"低俗/不适内容",excessive_ad_frequency:"频率过高",repetitive_material:"素材重复",unclear_material:"素材不清晰",stale_material:"素材陈旧",weak_first_three_seconds:"前三秒弱",irrelevant_targeting:"相关性弱",return_path_friction:"返回路径过长",potential_privacy_risk:"潜在隐私风险",no_issue:"未发现明确问题"};
 const initial={title:"合成演示：游戏福利素材",ad_copy:"限时福利，点击查看活动详情",feedback:"点击后自动跳转到陌生页面，进入后连续返回很多次还是回不去",industry:"游戏",media_scene:"锁屏",landing_type:"Deeplink",material_format:"竖版视频",first_three_seconds:"前三秒只有空镜，核心信息出现较晚"};
 
 export function Dashboard(){
+ return ENTERPRISE_DEMO
+  ? <StaffGate>{(staff,logout)=><Workspace staff={staff} logout={logout}/>}</StaffGate>
+  : <Workspace/>;
+}
+
+function Workspace({staff,logout}:{staff?:Staff;logout?:()=>Promise<void>}){
  const [page,setPage]=useState<Screen>("项目概览");
  const [lastAnalysis,setLastAnalysis]=useState<Screen>("单条分析");
  const [health,setHealth]=useState<any>();
  const [healthError,setHealthError]=useState("");
  useEffect(()=>{api("/health").then(setHealth).catch(()=>setHealthError("无法连接后端，请确认本地服务已启动。"))},[]);
  const navigate=(screen:Screen)=>{setPage(screen);if(["单条分析","批量分析","综合归因","业务闭环"].includes(screen))setLastAnalysis(screen)};
- return <WorkspaceChrome page={page} lastAnalysis={lastAnalysis} onNavigate={navigate} health={health} healthError={healthError}>
+ return <WorkspaceChrome page={page} lastAnalysis={lastAnalysis} onNavigate={navigate} health={health} healthError={healthError} staff={staff} logout={logout}>
   <RetainedPage active={page==="项目概览"}><Overview go={navigate}/></RetainedPage>
   <RetainedPage active={page==="单条分析"}><Single/></RetainedPage>
   <RetainedPage active={page==="批量分析"}><Batch/></RetainedPage>
   <RetainedPage active={page==="综合归因"}><Comprehensive/></RetainedPage>
   <RetainedPage active={page==="业务闭环"}><BusinessWorkbench/></RetainedPage>
-  <RetainedPage active={page==="人工复核"}><Review/></RetainedPage>
-  <RetainedPage active={page==="评测中心"}><Evaluation/></RetainedPage>
-  <RetainedPage active={page==="Prompt 与规则"}><Policy/></RetainedPage>
+  <RetainedPage active={page==="日常安全检测"}><DiagnosticsWorkspace kind="monitor"/></RetainedPage>
+  <RetainedPage active={page==="策略效果检测"}><DiagnosticsWorkspace kind="strategy"/></RetainedPage>
+  <RetainedPage active={page==="人工复核"}><Review staff={staff}/></RetainedPage>
+  <RetainedPage active={page==="评测中心"}><EvaluationCenter rulesOnly={!!staff}/></RetainedPage>
+  <RetainedPage active={page==="Prompt 与规则"}><Policy readOnly={!!staff}/></RetainedPage>
+  <RetainedPage active={page==="行业规范动态"}><IndustryWatch/></RetainedPage>
   <RetainedPage active={page==="项目复盘"}><CaseStudy/></RetainedPage>
  </WorkspaceChrome>
 }
@@ -62,6 +74,7 @@ function Overview({go}:{go:(screen:Screen)=>void}){
     {loading?<div className="state">正在读取记录…</div>:total?<div className="risk-chart" style={{height:230}}><ResponsiveContainer><BarChart data={chart}><CartesianGrid strokeDasharray="3 3" vertical={false}/><XAxis dataKey="name" tickLine={false} axisLine={false}/><YAxis allowDecimals={false} tickLine={false} axisLine={false}/><Tooltip/><Bar dataKey="value" name="分析记录" radius={[5,5,0,0]}>{chart.map((_,i)=><Cell key={i} fill={["#8aaf9e","#d0b56d","#d49477","#b87983"][i]}/>)}</Bar></BarChart></ResponsiveContainer></div>:<div className="state"><strong>还没有分析记录</strong><p>完成一次分析后，这里会显示真实的本地统计。</p></div>}
    </div>
   </div>
+  {data?.risk_trends&&<WorkspaceRiskTrend data={data.risk_trends}/>}
   <div className="workflow-strip"><div><span className="eyebrow">处理路径</span><strong>识别问题，保留依据，让人作最终确认</strong></div><ol><li>输入反馈</li><li>检索与分析</li><li>核对证据</li><li>人工确认</li></ol></div>
   <details className="disclosure"><summary>能力范围与数据口径</summary><p className="muted">本工具提供分析和建议，不自动投放、处罚或修改线上配置。以上统计来自本地记录，不代表线上业务效果。人工复核率暂不展示，以免把重复复核记录数误作已复核样本数。图片语义审核以环境配置为准。</p></details>
  </>;
@@ -162,33 +175,34 @@ function Comprehensive(){
  </>
 }
 
-function Review(){
+function Review({staff}:{staff?:Staff}){
  const [rows,setRows]=useState<any[]>([]);const [message,setMessage]=useState("");const [error,setError]=useState("");const [loading,setLoading]=useState(true);
  const [query,setQuery]=useState("");const [risk,setRisk]=useState("all");const [selected,setSelected]=useState<any>();const [editing,setEditing]=useState(false);const [busy,setBusy]=useState(false);const [saved,setSaved]=useState<any>();
- const load=useCallback(()=>{setLoading(true);setError("");return api<any[]>("/analyses?review_required=true").then(setRows).catch(e=>setError(e.message)).finally(()=>setLoading(false))},[]);
- useEffect(()=>{api<any[]>("/analyses?review_required=true").then(setRows).catch(e=>setError(e.message)).finally(()=>setLoading(false));},[]);
+ const [pendingOnly,setPendingOnly]=useState(!!staff);
+ const endpoint=pendingOnly?"/analyses?pending_only=true":"/analyses?review_required=true";
+ const load=useCallback(()=>{setLoading(true);setError("");return api<any[]>(endpoint).then(setRows).catch(e=>setError(e.message)).finally(()=>setLoading(false))},[endpoint]);
+ useEffect(()=>{let active=true;api<any[]>(endpoint).then(value=>{if(active)setRows(value)}).catch(e=>{if(active)setError(e.message)}).finally(()=>{if(active)setLoading(false)});return()=>{active=false};},[endpoint]);
  async function decide(decision:"accepted"|"modified",corrections:Record<string,unknown>={}){
-  if(!selected)return;setBusy(true);setError("");try{const response:any=await api(`/analyses/${selected.id}/reviews`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({decision,reviewer:"demo_reviewer",notes:"人工确认原始分析",...corrections})});setSaved(response.corrected);setEditing(false);setMessage("人工版本已保存，AI 原始结果保留。")}catch(e:any){setError(e.message)}finally{setBusy(false)}
+  if(!selected)return;setBusy(true);setError("");try{const response:any=await api(`/analyses/${selected.id}/reviews`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({decision,notes:"人工确认原始分析",...corrections})});setSaved(response.corrected);if(staff)setSelected({...selected,latest_review:{reviewer:staff.employee_id,corrected:response.corrected}});setEditing(false);setMessage("人工版本已保存，AI 原始结果保留。");if(staff)void load()}catch(e:any){setError(e.message)}finally{setBusy(false)}
  }
  const filtered=rows.filter(row=>(risk==="all"||row.output.overall_risk===risk)&&`${row.input.feedback} ${row.input.title} ${row.id}`.toLowerCase().includes(query.toLowerCase()));
  return <>
-  <div className="hero"><div><h3>人工复核队列</h3><p>先选样本，再查看依据与修正结论。分析标记需复核的记录保留在这里，包含历史已处理样本。</p></div><button className="secondary" disabled={loading} onClick={load}>刷新记录</button></div>
+  <div className="hero"><div><h3>人工复核队列</h3><p>先选样本，再核对依据与修正结论。</p></div><button className="secondary" disabled={loading} onClick={load}>刷新记录</button></div>
+  {staff&&<label className="queue-filter"><input type="checkbox" checked={pendingOnly} onChange={event=>{setPendingOnly(event.target.checked);setLoading(true);setError("")}}/> 仅显示待复核</label>}
   {message&&<div className="success" role="status">{message}</div>}{error&&<div className="error" role="alert">{error}</div>}
   <div className="review-workspace"><div className="card review-list"><div className="section-heading"><h4>需复核记录</h4><span className="count-label">最近 {rows.length} 条以内</span></div><div className="table-toolbar"><input aria-label="搜索复核记录" placeholder="搜索反馈、标题或编号" value={query} onChange={e=>setQuery(e.target.value)}/><select aria-label="筛选风险等级" value={risk} onChange={e=>setRisk(e.target.value)}><option value="all">全部风险</option><option value="critical">极高风险</option><option value="high">高风险</option><option value="medium">中风险</option><option value="low">低风险</option></select></div>
    {loading?<div className="state">正在加载复核记录…</div>:!filtered.length?<div className="state">{rows.length?"没有符合筛选条件的记录。":"暂无需复核记录，可先完成一次快速分析。"}</div>:<div className="table-wrap"><table><thead><tr><th>反馈与标签</th><th>风险</th><th>操作</th></tr></thead><tbody>{filtered.map(row=><tr key={row.id} className={selected?.id===row.id?"selected-row":""}><td><strong className="feedback-excerpt">{row.input.feedback}</strong><p className="muted">{row.output.labels.map((x:any)=>resultLabelName(x.label,row.output.assessment_status,names)).join(" · ")}</p><small className="muted">{row.id.slice(0,8)}</small></td><td><span className={`risk ${row.output.overall_risk}`}>{({low:"低",medium:"中",high:"高",critical:"极高"} as Record<string,string>)[row.output.overall_risk]}</span></td><td><button className="text-button" onClick={()=>{setSelected(row);setSaved(undefined);setEditing(false);setMessage("");setError("")}}>查看并复核</button></td></tr>)}</tbody></table></div>}
    <p className="muted">列表接口返回最近 200 条以内，按原始需复核标记筛选；暂不提供跨会话的已处理状态筛选。</p>
   </div><div className="review-detail">{selected?<>
-   <div className="card"><div className="section-heading"><h4>样本详情</h4><span className="subtle-badge">{selected.id.slice(0,8)}</span></div><blockquote>{selected.input.feedback}</blockquote><p className="muted">{selected.input.title} · {selected.input.media_scene}</p>{!saved&&<div className="actions"><button className="primary" disabled={busy} onClick={()=>decide("accepted")}>接受原结论</button><button className="secondary" disabled={busy} onClick={()=>setEditing(true)}>编辑修正版</button></div>}</div>
+   <div className="card"><div className="section-heading"><h4>样本详情</h4><span className="subtle-badge">{selected.id.slice(0,8)}</span></div><blockquote>{selected.input.feedback}</blockquote><p className="muted">{selected.input.title} · {selected.input.media_scene}</p>{selected.latest_review&&<p className="muted">复核工号 {selected.latest_review.reviewer}</p>}{!saved&&<div className="actions"><button className="primary" disabled={busy} onClick={()=>decide("accepted")}>接受原结论</button><button className="secondary" disabled={busy} onClick={()=>setEditing(true)}>编辑修正版</button></div>}</div>
    {editing&&<AgentReviewEditor key={selected.id} output={selected.output} names={names} busy={busy} onSave={payload=>decide("modified",payload)} onCancel={()=>setEditing(false)}/>}
-   <ResultPanel result={saved||selected.output} human={!!saved}/>
-   {saved&&<details className="disclosure"><summary>查看 AI 原始结果</summary><ResultPanel result={selected.output}/></details>}
+   <ResultPanel result={saved||selected.latest_review?.corrected||selected.output} human={!!(saved||selected.latest_review)}/>
+   {(saved||selected.latest_review)&&<details className="disclosure"><summary>查看 AI 原始结果</summary><ResultPanel result={selected.output}/></details>}
   </>:<div className="card analysis-empty"><div className="empty-mark" aria-hidden="true">✓</div><h4>选择一条记录开始复核</h4><p>在这里集中查看结论、原文与规范，保存独立的人工版本。</p></div>}</div></div>
  </>;
 }
 
-function Evaluation(){return <EvaluationCenter/>}
-
-function Policy(){const [prompts,setPrompts]=useState<any[]>([]);const [name,setName]=useState("候选 Prompt");const [content,setContent]=useState("严格依据输入和 citation_ids 输出多标签结论；证据不足时写入 uncertainties；不得自动处罚或编造引用。");const [message,setMessage]=useState("");const load=useCallback(()=>api<any[]>("/prompts").then(setPrompts).catch(()=>{}),[]);useEffect(()=>{void load();},[load]);async function create(){await api("/prompts",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,content})});setMessage("新版本已创建，历史版本保持只读。");load()}async function activate(v:string){await api(`/prompts/${v}/activate`,{method:"POST"});setMessage(`已回滚/切换到 ${v}`);load()}return <><div className="hero"><div><h3>知识库与配置</h3><p>密钥仅由后端环境读取；前端只展示安全的 Prompt 内容和版本元数据。</p></div></div>{message&&<div className="success">{message}</div>}<div className="grid two"><div className="card"><h4>Prompt 版本</h4>{prompts.map(p=><div className="review-item" key={p.version}><div><b>{p.name}</b> {p.is_active&&<span className="badge">当前</span>}<p className="muted">{p.version} · {p.content}</p></div>{!p.is_active&&<button className="secondary" onClick={()=>activate(p.version)}>回滚到此版</button>}</div>)}</div><div className="card"><h4>新建候选版本</h4><div className="field"><label>名称</label><input value={name} onChange={e=>setName(e.target.value)}/></div><div className="field" style={{marginTop:12}}><label>Prompt 内容</label><textarea value={content} onChange={e=>setContent(e.target.value)} /></div><button className="primary" style={{marginTop:14}} onClick={create}>保存只读版本</button></div></div><div className="card" style={{marginTop:16}}><h4>规则资产</h4><div className="pill-row">{Object.values(names).map(x=><span className="label" key={x}>{x}</span>)}</div><p className="muted">知识库包含：跳转与返回、低俗与恶意内容、频控与重复素材、清晰度与新鲜度、视频前三秒、隐私权限、人工复核与风险升级。包含明确标记的合成演示规范与公开规则摘要；公开摘要不等于官方原文。</p><details className="disclosure"><summary>实验设计 · 稳定匿名分桶</summary><Experiment/></details></div></>}
+function Policy({readOnly=false}:{readOnly?:boolean}){const [prompts,setPrompts]=useState<any[]>([]);const [name,setName]=useState("候选 Prompt");const [content,setContent]=useState("严格依据输入和 citation_ids 输出多标签结论；证据不足时写入 uncertainties；不得自动处罚或编造引用。");const [message,setMessage]=useState("");const load=useCallback(()=>api<any[]>("/prompts").then(setPrompts).catch(()=>{}),[]);useEffect(()=>{void load();},[load]);async function create(){await api("/prompts",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,content})});setMessage("新版本已创建，历史版本保持只读。");load()}async function activate(v:string){await api(`/prompts/${v}/activate`,{method:"POST"});setMessage(`已回滚/切换到 ${v}`);load()}return <><div className="hero"><div><h3>知识库与配置</h3><p>查看系统的分类口径、参考资料范围和当前使用的提示词版本。核对单条结果时，可在分析详情中展开「判断依据与规范来源」。</p></div></div>{message&&<div className="success">{message}</div>}<div className="grid two"><div className="card"><h4>Prompt 版本</h4><p className="muted">{readOnly?"企业演示由规则生成结论。此处的提示词供查阅，用于说明真实模型模式下的分析要求。":"提示词用于说明真实模型应如何判断、引用证据和输出结果。"}</p>{prompts.map(p=><div className="review-item" key={p.version}><div><b>{p.name}</b> {p.is_active&&<span className="badge">当前</span>}<p className="muted">{p.version} · {p.content}</p></div>{!readOnly&&!p.is_active&&<button className="secondary" onClick={()=>activate(p.version)}>回滚到此版</button>}</div>)}</div>{!readOnly&&<div className="card"><h4>新建候选版本</h4><div className="field"><label>名称</label><input value={name} onChange={e=>setName(e.target.value)}/></div><div className="field" style={{marginTop:12}}><label>Prompt 内容</label><textarea value={content} onChange={e=>setContent(e.target.value)} /></div><button className="primary" style={{marginTop:14}} onClick={create}>保存只读版本</button></div>}</div><div className="card" style={{marginTop:16}}><h4>问题标签与资料范围</h4><div className="pill-row">{Object.values(names).map(x=><span className="label" key={x}>{x}</span>)}</div><p className="muted">知识库包含：跳转与返回、低俗与恶意内容、频控与重复素材、清晰度与新鲜度、视频前三秒、隐私权限、人工复核与风险升级。包含明确标记的合成演示规范与公开规则摘要；公开摘要不等于官方原文。</p>{!readOnly&&<details className="disclosure"><summary>实验设计 · 稳定匿名分桶</summary><Experiment/></details>}</div></>}
 function Experiment(){const [id,setId]=useState("anonymous-demo-user-001");const [result,setResult]=useState<any>();return <div style={{marginTop:24}}><h4>Experiment Design · 稳定匿名分桶</h4><div className="actions"><input style={{padding:9,border:"1px solid #d5dce5",borderRadius:8,minWidth:280}} value={id} onChange={e=>setId(e.target.value)}/><button className="secondary" onClick={async()=>setResult(await api("/experiment/assign",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({anonymous_user_id:id})}))}>计算分组</button></div>{result&&<p className="success">桶 {result.bucket} → {result.group}。相同匿名 ID 稳定进入同组，salt 不返回前端。</p>}<p className="muted">0–59 主实验组、60–69 小实验组、70–99 对照组。灰度发布不等于 A/B 测试；因果评估仍需随机分流、主指标、护栏指标、样本量与实验周期。</p></div>}
 
 function CaseStudy(){return <><div className="hero"><div><h3>个人作品复盘</h3><p>基于公开规则、完全合成数据和用户自行输入构建；不接入 vivo 内部系统，不使用内部数据，也不声称带来真实 CTR 或收入提升。</p></div></div><div className="grid two"><div className="card"><section className="case-section"><h4>背景与用户</h4><p>广告商业化产品经理、体验治理、内容审核和运营人员需要从大量非结构化反馈中快速形成一致、可追溯的判断。</p></section><section className="case-section"><h4>问题与方案</h4><p>标签不统一、依据难追溯、策略难闭环。方案把输入校验、敏感信息拦截、规则预判、本地检索、结构化生成、后处理、复核和评测串成一条链路。</p></section><section className="case-section"><h4>指标设计</h4><p>效果看高风险 recall、Macro/Micro F1 和建议人评；效率看平均耗时与人工复核率；成本看单次估算；护栏看误报、误拦截和可投覆盖率。</p></section></div><div className="card"><section className="case-section"><h4>3 分钟讲解提纲</h4><ol><li>30 秒：真实业务观察与作品事实边界。</li><li>60 秒：从反馈到证据、建议和复核闭环。</li><li>50 秒：为什么 Demo Mode、结构化 schema 与规则后处理重要。</li><li>30 秒：用固定合成集评测，高风险优先关注召回率。</li><li>10 秒：下一步是视觉模型、向量检索与真实匿名人评。</li></ol></section><section className="case-section"><h4>失败案例与风险</h4><p>覆盖检索正确但生成错误、错误召回、多标签漏检、模糊反馈过推断，以及规则与模型冲突。系统保留不确定性、追溯引用和人工修正版。</p></section><section className="case-section"><h4>事实边界</h4><p>可以说“我基于过往广告体验治理观察做了独立作品”；不能说“接入 vivo 系统、使用内部 2,149 条数据、已经上线或提升 CTR”。</p></section></div></div></>}

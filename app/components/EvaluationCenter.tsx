@@ -9,7 +9,7 @@ const states:Record<string,string>={queued:"排队中",running:"运行中",compl
 const assessments:Record<string,string>={issue_detected:"发现问题线索",insufficient_evidence:"证据不足",no_explicit_issue:"未见明确问题"};
 const percent=(n:number|null|undefined)=>n==null?"不适用":`${(n*100).toFixed(1)}%`;
 
-export function EvaluationCenter(){
+export function EvaluationCenter({rulesOnly=false}:{rulesOnly?:boolean}){
  const [catalog,setCatalog]=useState<any[]>([]),[dataset,setDataset]=useState("development"),[mode,setMode]=useState("rules");
  const [preview,setPreview]=useState<any>(),[confirmed,setConfirmed]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState("");
  const [runId,setRunId]=useState<number>(),[run,setRun]=useState<any>(),[history,setHistory]=useState<any[]>([]),[onlyErrors,setOnlyErrors]=useState(false);
@@ -35,7 +35,7 @@ export function EvaluationCenter(){
   <div className="hero"><div><h3>统一评测中心</h3><p>开发集用于发现并修复错误；验证集用于阶段比较。所有当前数据均为合成案例，不是企业独立盲测。</p></div></div>
   <div className="card"><h4>1. 选择题库与运行方式</h4><div className="form-grid">
    <label className="field">评测数据集<select aria-label="评测数据集" value={dataset} disabled={busy||running} onChange={e=>{setDataset(e.target.value);change()}}>{catalog.map(x=><option key={x.id} value={x.id}>{x.name} · {x.count}条</option>)}</select></label>
-   <label className="field">运行模式<select aria-label="运行模式" value={mode} disabled={busy||running} onChange={e=>{setMode(e.target.value);change()}}><option value="rules">规则基线（不调用模型）</option><option value="provider">真实模型＋规则＋当前RAG</option></select></label>
+   <label className="field">运行模式<select aria-label="运行模式" value={mode} disabled={rulesOnly||busy||running} onChange={e=>{setMode(e.target.value);change()}}><option value="rules">规则基线（不调用模型）</option>{!rulesOnly&&<option value="provider">真实模型＋规则＋当前RAG</option>}</select></label>
   </div><p className="muted">{selected?.description}</p><p className="muted">此处的模式独立于其他分析页面。12条留出候选不开放运行；12条检索查询属于另一种实验，不混入分类评测。</p>
   <button className="secondary" disabled={busy||running||!catalog.length} onClick={inspect}>{busy?"处理中…":"2. 预览条数与调用量"}</button>
   {preview&&<div className="evidence"><b>{preview.dataset.name}：{preview.analyses}条</b><p>预计模型逻辑调用：{preview.expected_model_calls}次；最多HTTP尝试：{preview.maximum_http_attempts}次。</p><p>模型：{preview.model||"未配置"}；{mode==="rules"?"无API费用，Token字段为模拟值。":"实际费用未知，结果中记录服务返回的Token；需要自行核对账单。"}</p><p className="muted">{preview.notice}</p>

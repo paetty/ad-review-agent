@@ -44,7 +44,7 @@ test("unified analysis retains input, paused task and edited original comparison
  const {browser,page,errors,calls,release}=await setup();
  try{
   await page.goto(base,{waitUntil:"networkidle"});
-  assert.equal(await page.getByRole("navigation",{name:"主导航"}).getByRole("button").count(),5);
+  assert.equal(await page.getByRole("navigation",{name:"主导航"}).getByRole("button").count(),7);
   await page.getByRole("button",{name:"分析任务",exact:true}).click();
   await page.getByRole("textbox",{name:"素材标题",exact:true}).fill("synthetic/demo 保留输入");
   await page.getByRole("button",{name:"开始分析",exact:true}).click();

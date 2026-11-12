@@ -2,15 +2,18 @@ from __future__ import annotations
 import base64, csv, io, json, os, time
 from contextlib import asynccontextmanager
 from pathlib import Path
-from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import Depends, FastAPI, File, Form, HTTPException, Request, UploadFile
+from fastapi.exception_handlers import request_validation_exception_handler
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import Response
+from fastapi.responses import JSONResponse, Response
 from sqlalchemy import desc, func, select
 from sqlalchemy.orm import Session
 from .comprehensive import COMPREHENSIVE_OPTIONAL, COMPREHENSIVE_REQUIRED, aggregate_comprehensive, inspect_image, to_data_url
 from .database import SessionLocal
 from .agent import resume_agent_run, start_agent_run
 from .business import router as business_router
+from .diagnostics import router as diagnostics_router
 from .evaluation_center import router as evaluation_router, mark_interrupted_runs
 from .evaluation import calculate_metrics
 from .experiment import assign_experiment
@@ -19,16 +22,35 @@ from .pii import detect_sensitive_columns
 from .provider import OpenAICompatibleProvider, ProviderError
 from .schemas import AgentResumeInput, AnalysisInput, AnalysisOutput, ExperimentInput, PromptCreate, ReviewInput
 from .service import ROOT, analyze_and_save, demo_mode, init_db, persist_analysis, save_review
+from .enterprise_auth import enforce_access, reviewer_identity, router as auth_router
+from .enterprise_dashboard import pending_review, risk_trends, router as enterprise_router
+from .enterprise_settings import ENABLED as ENTERPRISE_DEMO, ORIGIN as ENTERPRISE_ORIGIN
 
 @asynccontextmanager
 async def lifespan(app):
     init_db()
     mark_interrupted_runs()
     yield
-app=FastAPI(title="Ad Experience Insight Assistant API",version="1.0.0",lifespan=lifespan)
+app=FastAPI(title="Ad Experience Insight Assistant API",version="1.0.0",lifespan=lifespan, dependencies=[Depends(enforce_access)])
 app.include_router(business_router)
+app.include_router(diagnostics_router)
 app.include_router(evaluation_router)
-app.add_middleware(CORSMiddleware,allow_origins=[os.getenv("FRONTEND_ORIGIN","http://localhost:3000")],allow_credentials=False,allow_methods=["*"],allow_headers=["*"])
+app.include_router(auth_router)
+app.include_router(enterprise_router)
+app.add_middleware(CORSMiddleware,allow_origins=[ENTERPRISE_ORIGIN if ENTERPRISE_DEMO else os.getenv("FRONTEND_ORIGIN","http://localhost:3000")],allow_credentials=ENTERPRISE_DEMO,allow_methods=["*"],allow_headers=["*"])
+
+@app.middleware("http")
+async def prevent_enterprise_caching(request: Request, call_next):
+    response = await call_next(request)
+    if ENTERPRISE_DEMO and request.url.path.startswith("/api/"):
+        response.headers["Cache-Control"] = "no-store"
+    return response
+
+@app.exception_handler(RequestValidationError)
+async def validation_error(request: Request, exc: RequestValidationError):
+    if ENTERPRISE_DEMO and request.url.path.rstrip("/") == "/api/auth/login":
+        return JSONResponse({"detail": "请输入有效的模拟工号和密码"}, status_code=422)
+    return await request_validation_exception_handler(request, exc)
 def get_db():
     db=SessionLocal()
     try: yield db
@@ -36,6 +58,8 @@ def get_db():
 
 @app.get("/api/health")
 def health():
+    if ENTERPRISE_DEMO:
+        return {"status":"ok","mode":"demo","enterprise_demo":True,"image_review_enabled":False,"synthetic_demo":True}
     provider=OpenAICompatibleProvider(); mode="demo" if demo_mode() else "provider"
     return {"status":"ok","mode":mode,"provider_adapter_configured":provider.configured,"provider":provider.provider if provider.configured else None,"model":provider.model if provider.configured else None,"rag":"local_tfidf","image_review_enabled":os.getenv("ENABLE_IMAGE_REVIEW","false").lower()=="true","synthetic_demo":mode=="demo"}
 
@@ -71,7 +95,7 @@ async def create_agent_run(item:AnalysisInput,db:Session=Depends(get_db)):
     except ValueError as exc: raise HTTPException(400,detail={"code":"validation_error","message":str(exc)}) from exc
 
 @app.post("/api/agent/runs/{thread_id}/resume")
-async def resume_agent(thread_id:str,payload:AgentResumeInput,db:Session=Depends(get_db)):
+async def resume_agent(thread_id:str,payload:AgentResumeInput,request:Request,db:Session=Depends(get_db)):
     try:
         result=await resume_agent_run(thread_id,payload.model_dump())
     except Exception as exc:
@@ -80,7 +104,7 @@ async def resume_agent(thread_id:str,payload:AgentResumeInput,db:Session=Depends
     if output:
         row=db.get(Analysis,output["analysis_id"])
         if row:
-            save_review(db,row,ReviewInput(reviewer="agent_human_reviewer",**payload.model_dump()))
+            save_review(db,row,ReviewInput(reviewer=reviewer_identity(request,"agent_human_reviewer"),**payload.model_dump()))
     return {"thread_id":thread_id,"status":result.get("status","completed"),"output":output,"corrected_output":result.get("corrected_output"),"trace":result.get("trace",[]),"human_decision":result.get("human_decision")}
 
 @app.get("/api/agent/graph")
@@ -113,12 +137,26 @@ async def create_image_analysis(payload:str=Form(...),file:UploadFile=File(...),
     except ValueError as exc: raise HTTPException(400,detail={"code":"validation_error","message":str(exc)}) from exc
 
 @app.get("/api/analyses")
-def list_analyses(risk:str|None=None,review_required:bool|None=None,db:Session=Depends(get_db)):
+def list_analyses(risk:str|None=None,review_required:bool|None=None,pending_only:bool=False,db:Session=Depends(get_db)):
     stmt=select(Analysis).order_by(desc(Analysis.created_at)).limit(200)
     if risk: stmt=stmt.where(Analysis.overall_risk==risk)
     if review_required is not None: stmt=stmt.where(Analysis.requires_human_review==review_required)
+    if ENTERPRISE_DEMO and pending_only: stmt=stmt.where(pending_review())
     rows=db.scalars(stmt).all()
-    return [{"id":x.id,"created_at":x.created_at,"input":x.input_json,"output":x.original_output_json} for x in rows]
+    results=[{"id":x.id,"created_at":x.created_at,"input":x.input_json,"output":x.original_output_json} for x in rows]
+    if ENTERPRISE_DEMO and rows:
+        latest_id = (select(HumanReview.id).where(HumanReview.analysis_id == Analysis.id)
+                     .order_by(HumanReview.created_at.desc(), HumanReview.id.desc()).limit(1).correlate(Analysis).scalar_subquery())
+        reviews = {r.analysis_id: r for r in db.scalars(
+            select(HumanReview).join(Analysis, HumanReview.id == latest_id).where(Analysis.id.in_([x.id for x in rows]))
+        )}
+        for result in results:
+            latest = reviews.get(result["id"])
+            result["latest_review"] = {
+                "reviewer": latest.reviewer, "created_at": latest.created_at,
+                "decision": latest.decision, "corrected": latest.corrected_output_json, "notes": latest.notes,
+            } if latest else None
+    return results
 
 @app.delete("/api/analyses/{analysis_id}",status_code=204)
 def delete_analysis(analysis_id:str,db:Session=Depends(get_db)):
@@ -127,10 +165,10 @@ def delete_analysis(analysis_id:str,db:Session=Depends(get_db)):
     db.delete(row); db.commit(); return Response(status_code=204)
 
 @app.post("/api/analyses/{analysis_id}/reviews")
-def review(analysis_id:str,payload:ReviewInput,db:Session=Depends(get_db)):
+def review(analysis_id:str,payload:ReviewInput,request:Request,db:Session=Depends(get_db)):
     row=db.get(Analysis,analysis_id)
     if not row: raise HTTPException(404,"记录不存在")
-    return save_review(db,row,payload)
+    return save_review(db,row,payload.model_copy(update={"reviewer": reviewer_identity(request,payload.reviewer)}))
 
 REQUIRED=["title","ad_copy","feedback","industry","media_scene","landing_type","material_format"]
 @app.get("/api/batch/template")
@@ -235,7 +273,7 @@ def overview(db:Session=Depends(get_db)):
     rows=db.scalars(select(Analysis)).all(); total=len(rows)
     risks={k:sum(x.overall_risk==k for x in rows) for k in ["low","medium","high","critical"]}
     reviewed=db.scalar(select(func.count()).select_from(HumanReview)) or 0
-    return {"today_analyses":total,"risk_distribution":risks,"review_rate":round(reviewed/max(1,total),3),"average_latency_ms":round(sum(x.original_output_json.get("model_info",{}).get("latency_ms",0) for x in rows)/max(1,total)),"synthetic_demo":True}
+    return {"today_analyses":total,"risk_distribution":risks,"review_rate":round(reviewed/max(1,total),3),"average_latency_ms":round(sum(x.original_output_json.get("model_info",{}).get("latency_ms",0) for x in rows)/max(1,total)),"synthetic_demo":True,"risk_trends":risk_trends(db)}
 
 @app.get("/api/prompts")
 def prompts(db:Session=Depends(get_db)): return [{"version":x.version,"name":x.name,"content":x.content,"is_active":x.is_active,"created_at":x.created_at} for x in db.scalars(select(PromptVersion).order_by(desc(PromptVersion.id))).all()]

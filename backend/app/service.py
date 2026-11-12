@@ -14,6 +14,7 @@ from .retrieval import PolicyRetriever
 from .schemas import AnalysisInput, AnalysisOutput, Evidence, LabelResult, ModelInfo, ProviderAnalysisDraft, Recommendation, ReviewInput, provider_analysis_schema
 from .evidence_policy import ANALYSIS_DISCLAIMER, ANALYSIS_POLICY_VERSION, is_vague_only, request_information_recommendation
 from .taxonomy import LABELS
+from .enterprise_settings import ENABLED as ENTERPRISE_DEMO
 
 ROOT=Path(__file__).resolve().parents[2]
 load_dotenv(ROOT/".env", override=False)
@@ -21,10 +22,11 @@ retriever=PolicyRetriever(ROOT/"data"/"policies")
 demo_engine=DemoEngine()
 
 def demo_mode() -> bool:
-    return os.getenv("DEMO_MODE", "true").strip().lower() not in {"0", "false", "no", "off"}
+    return ENTERPRISE_DEMO or os.getenv("DEMO_MODE", "true").strip().lower() not in {"0", "false", "no", "off"}
 
 def init_db():
-    Base.metadata.create_all(engine)
+    tables = [table for table in Base.metadata.sorted_tables if ENTERPRISE_DEMO or not table.name.startswith("enterprise_")]
+    Base.metadata.create_all(engine, tables=tables)
     from .database import SessionLocal
     with SessionLocal() as db:
         if not db.scalar(select(PromptVersion).limit(1)):

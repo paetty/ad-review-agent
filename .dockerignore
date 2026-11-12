@@ -12,7 +12,8 @@ dist
 tmp
 output
 outputs
-data/app.db
+**/*.db
+**/*.sqlite*
 .env
 *.log
 __pycache__
