@@ -1,168 +1,61 @@
-# Ad Review Agent｜广告体验审核智能体
+# Ad Review Agent｜广告体验分析助手
 
-Ad Experience Insight Assistant 是面向广告商业化产品经理、体验治理、内容审核和运营人员的个人作品。它把素材说明与用户反馈转换为统一标签、风险等级、可追溯证据和结构化策略建议，并支持批量处理、人工复核、Prompt 版本、合成评测与匿名实验分桶。
+这是一个可本地运行的广告治理个人项目。它把用户反馈整理成问题标签、风险、原话依据和核查建议，支持人工修正和报告导出。运营也可以上传广告日指标，检查异常或观察策略上线前后的变化。
 
-## 30秒看懂这个项目
+## 当前工作台
 
-**要解决的问题**：用户说“广告太多”“返回不去”“看不清”，这些反馈很难直接变成可执行、可追溯的问题单。
+| 模块 | 功能 |
+| --- | --- |
+| 工作台 | 查看累计分析和风险分布。企业演示还提供近 7 天风险趋势。 |
+| 分析任务 | 新建分析、批量任务、按广告汇总、交接报告。新建分析可选择快速分析或分析并人工确认。 |
+| 监测与策略 | 日常安全检测筛选高曝光素材、识别文字风险并比较反馈事件率。策略效果检测按指定前后周期比较反馈目标、收入和 eCPM 等护栏。 |
+| 人工复核 | 核对依据，修改标签、风险和建议，保留原始结果。 |
+| 评测中心 | 预览调用量、运行评测并查看逐条差异。企业演示仅开放规则基线。 |
+| 知识库与配置 | 查看标签、参考资料和 Prompt 版本。普通模式可管理 Prompt，企业演示为只读。 |
+| 行业规范动态 | 按类型和日期浏览人工整理的资料及来源。资料列表独立于 RAG 知识库。 |
 
-**我的方案**：输入反馈和广告信息 → 分类并检索相关规则 → 输出风险、依据与建议 → 必要时交给人工复核 → 导出交接报告。
+演示时可在「监测与策略」运行[日常安全检测和策略效果检测](docs/ad-diagnostics-prompts.md)的合成案例。要展示从反馈到交付的完整流程，可进入「分析任务 → 交接报告」，运行配套案例，核查问题单后[导出报告](docs/mvp-business-guide.md)。
 
-这是可本地运行的个人原型。当前界面已整理为工作台、分析任务、人工复核、评测中心、知识库与配置五个主模块。GitHub链接用于查看作品，在线交互演示尚未部署。
+## 本地启动
 
-### 当前界面：工作空间 2.0
+需要 Node.js 22.13+、Python 3.11+ 和 pnpm。Windows PowerShell 在项目根目录运行：
 
-统一入口、按需展开证据和执行过程；切换模块保留本次输入、运行结果和编辑草稿。以下两张来自实际运行的新版前端，使用测试拦截提供的合成响应，不代表真实业务数据或模型效果。
-
-![工作空间2.0：五个主模块、任务入口及无记录空状态](docs/screenshots/04-workspace-v2.png)
-
-![新版分析与人工确认：保留人工修正版和AI原始结果](docs/screenshots/05-analysis-review-v2.png)
-
-新版操作和回滚见[工作空间2.0说明](docs/workspace-v2-and-rollback.md)。下面三张保留上一版界面中的完整后端演示记录，使用合成样例和规则演示模式，不调用真实模型；仓库也提供真实模型接入方式和[小样本复测记录](docs/model-pilot-retest-2026-10-23.md)。
-
-### 1. 从反馈表生成问题单
-
-上传反馈表和可选的曝光表，按广告、素材及时间窗聚合。本例将6条反馈整理为5张问题单，显示4条待核查，并展示原始反馈、建议责任团队和曝光口径。缺少有效曝光分母时不计算比率。
-
-![业务闭环：6条合成反馈聚合为5张问题单，显示待核查状态与原始反馈](docs/screenshots/01-business-workflow.png)
-
-### 2. 高风险任务暂停，等待人工决定
-
-例如输入“点击后自动跳转到陌生页面，连续返回很多次还是回不去”。工作台展示输入校验、规则检索和风险分析轨迹；发现高风险后暂停，人工可以接受或修改后继续。系统只给出分析和建议，不自动下线广告或修改投放。
-
-![Agent工作台：高风险任务暂停，展示执行轨迹、判断依据和人工处理入口](docs/screenshots/02-agent-human-review.png)
-
-### 3. 用评测定位错误，而不是只看成功案例
-
-选择题库和运行模式，先预览调用量，再执行评测。本图是12条补充开发样例的规则基线：标签完全匹配9/12，各适用项同时符合参考8/12。可以继续查看逐条差异，判断后续应改规则、检索、提示词还是后处理。这些是单人复核的合成开发样例，不是独立盲测，也不代表真实模型或线上效果。
-
-![评测中心：12条合成开发样例的规则基线结果，保留未匹配案例](docs/screenshots/03-evaluation-results.png)
-
-截图记录见[截图说明](docs/screenshots/README.md)。产品流程见[最小业务方案](docs/mvp-business-guide.md)，技术实现见[项目架构](docs/architecture.md)，验证方式见[统一评测指南](docs/evaluation-center-guide.md)。
-
-## 功能与实现边界
-
-项目新增了一个**有边界的 LangGraph Agent 工作流**：输入校验 → 本地规则检索 → 风险分析 → 条件路由。低风险自动完成，高风险会暂停并等待人工接受或修改后再继续。Agent 只负责分析和建议，不执行下线、处罚或投放修改。
-
-“综合归因”支持上传包含 `ad_id`、`feedback`、`image_filename` 等字段的 CSV，并同时上传对应素材图片。系统会按广告 ID 聚合多条反馈，输出主因分布、风险等级、证据、建议、素材匹配情况与人工复核状态。Demo 模式只检查图片格式、大小和分辨率，不宣称已完成 OCR 或图片语义识别。
-
-> 事实边界：本项目不接入 vivo 内部系统，不使用公司内部数据，也不声称产生真实 CTR、收入或体验提升。知识库分别标记自编演示规范、公开官方资料摘要和内部模拟规范；公开研究评论仅作为待标注候选，不当作本项目金标。
-
-## 当前建议演示：业务闭环
-
-进入“分析任务 → 交接报告”（原“业务闭环”），可一键运行6条反馈与配套曝光案例，或上传两张UTF-8 CSV（页面提供模板）。系统按广告、素材、场景、平台和时间窗关联曝光；缺失、零分母与抽样覆盖不计算总体比率。输出问题单、用户原话、规则来源、缺失证据、责任团队及建议。
-
-高风险/证据不足/需核查素材的条目进入人工复核，可以实际编辑标签和风险并记录备注。尚有待核查条目时只允许导出草稿；必要核查完成后才允许导出交接报告。导出不发送消息，也不修改投放。详见 [最小业务方案](docs/mvp-business-guide.md)。
-
-来源登记见 [规则与数据集](docs/sources-and-datasets.md)，分组隔离与冻结要求见 [独立评测协议](docs/blind-evaluation-protocol.md)。
-
-最新迭代见 [修复清单与后续优化策略](docs/optimization-strategy.md)：区分证据不足、未见明确问题与免责声明，保留未采纳模型候选；使用历史真实响应离线回放验证后处理，不把开发回归当作独立模型准确率。
-
-修复后的[五条真实模型复测](docs/model-pilot-retest-2026-10-23.md)已完成：本轮四项同时匹配5/5，另一次同版本为4/5；保留全部结果，不宣称总体准确率100%。
-
-2026-10-28更新：新增[统一评测中心](docs/evaluation-center-guide.md)，可选择28条开发、8条验证、12条补充开发或80条旧版回归数据，预览调用量后再运行。真实调用需显式确认；评测历史与业务分析记录隔离保存。Agent支持实际修改标签、风险和建议，并保留AI原文；菜单切换保留本次页面状态，刷新后的持久化范围见对应说明。
-
-## 快速启动
-
-工作台的「监测与策略」提供[日常安全检测与策略效果检测](docs/ad-diagnostics-prompts.md)，可直接运行合成示例或上传脱敏 CSV。
-
-可选的[模拟企业工作台](docs/enterprise-workspace-mvp.md)支持用模拟工号登录同一个共享工作台，并提供风险趋势和独立的行业规范动态入口。它在 3001／8016 端口运行，使用独立 SQLite 演示库。
-
-要求 Node.js 22.13+、Python 3.11+。
-
-```bash
+```powershell
 python -m venv .venv
-.venv/Scripts/pip install -r backend/requirements.txt
-.venv/Scripts/python backend/run.py
-
-# 新终端
-npm install
-npm run dev
+.\.venv\Scripts\python.exe -m pip install -r backend/requirements.txt
+.\.venv\Scripts\python.exe backend/run.py
 ```
 
-打开前端输出的本地地址（通常为 `http://localhost:3000`）；API 文档位于 `http://127.0.0.1:8000/docs`。
+另开一个终端：
 
-也可以使用 Docker：
-
-```bash
-copy .env.example .env
-docker compose up --build
+```powershell
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
-启动后进入“分析任务 → 新建分析”，选择“分析并人工确认”。提交普通反馈会直接完成；提交“强制跳转、无法关闭、疑似诈骗”等高风险反馈，会看到工作流暂停和人工复核按钮。Agent API 为 `POST /api/agent/runs`，流程说明为 `GET /api/agent/graph`。
+普通工作台通常在 [localhost:3000](http://localhost:3000/)，接口文档在 [127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)。[企业演示指南](docs/enterprise-workspace-mvp.md)提供模拟工号登录方式，使用 3001／8016 端口和独立 SQLite 数据库。
 
-## Agent 是怎样工作的
+使用 Docker 时，首次运行可在 PowerShell 执行 `Copy-Item .env.example .env` 创建配置，再执行 `docker compose up --build`。保留已有的本机配置。
 
-```mermaid
-flowchart LR
-  A[输入与隐私校验] --> B[本地 TF-IDF 规则检索]
-  B --> C[规则引擎或兼容模型分析]
-  C --> D{是否需要人工复核}
-  D -->|否| E[完成并保存]
-  D -->|是| F[暂停等待人工]
-  F --> E
+GitHub 提供源码和说明，交互演示在本地启动。旧界面见[历史截图档案](docs/screenshots/README.md)。
+
+## 实现与运行边界
+
+- React / vinext 前端调用 FastAPI，SQLite 保存分析、复核、报告和评测。规则引擎与本地 TF-IDF 检索提供分析依据，兼容模型适配层支持结构化响应。资料来源见[规则与数据集](docs/sources-and-datasets.md)。
+- LangGraph 管理「分析并人工确认」的校验、检索、分析和人工暂停。需要复核的任务由人接受或修改后继续。暂停状态保存在进程内存中。正式报告须完成必要核查，投放和回滚决策由人工执行。
+- 普通分析默认使用规则演示模式。图片在演示模式下用于基础检查和素材匹配，视觉分析需单独启用并配置兼容模型。配置步骤见[模型配置指南](docs/model-setup.md)。
+- 「监测与策略」由程序计算指标、告警和护栏。配置模型后提交分析要求可触发条件提取和摘要，合成示例也适用。原始 CSV 与素材原文在本地处理。策略前后对比用于观察变化，因果判断需要对照验证。
+- [评测中心](docs/evaluation-center-guide.md)支持 28 条开发、8 条验证、12 条补充开发和 80 条旧回归样例。真实评测须预览并确认调用量。[五条开发样例的真实模型复测](docs/model-pilot-retest-2026-10-23.md)记录两轮四项同时匹配 4/5 和 5/5 的结果。
+
+项目使用公开资料、合成样例和脱敏输入，定位为个人原型。合成评测用于验证已知场景，线上业务收益仍待验证。
+
+## 开发与验证
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest backend/tests -q
+pnpm lint
+pnpm build
+pnpm test
 ```
 
-- LangGraph 管理节点、状态、条件分支和人工中断；这是一条可解释的审核工作流，不是可以任意调用外部系统的全自动 Agent。
-- 默认使用内存检查点，适合本地演示；服务重启后，尚未完成的 Agent 任务不会保留。生产化需换成持久化 checkpointer。
-- 本地 RAG 返回真实规则片段和 `citation_id`；模型输出无法引用本次检索之外的规则。
-- 当前 Agent 工作台处理文本审核；已有图片上传与综合归因仍通过独立接口运行，视觉语义分析只有在配置兼容视觉模型后才会启用。
-
-## Demo Mode 与 Provider
-
-复制 `.env.example` 为 `.env`。默认 `DEMO_MODE=true`，无需 API Key：关键词、风险规则和固定模板会产生可重复结果；耗时与 Token 字段为确定性模拟值，`simulated=true`，费用为 0。它与真实 Provider 共用 Pydantic schema，但不代表真实模型效果，也不进行视觉理解。
-
-Provider Adapter 从后端环境变量读取 `LLM_API_KEY`、`LLM_BASE_URL`、`LLM_MODEL` 和 `LLM_PROVIDER`，不硬编码厂商或模型。设置 `DEMO_MODE=false` 后，真实 Provider 会消费本地 TF-IDF RAG 的可追溯片段，并经过 JSON Schema 校验、引用过滤、否定感知规则兜底与风险升级。配置不完整时会明确报错，不会静默伪装成真实模型。密钥不会返回前端、写入导出或普通日志。
-
-图片审核支持 PNG/JPEG/WebP（最大 5MB），图片只在请求内存中处理，不写入磁盘。真实视觉审核还需显式设置 `ENABLE_IMAGE_REVIEW=true`，并使用支持图片输入的兼容模型；Demo 模式只记录“未完成视觉理解”并强制人工复核。真实模型批量评测默认关闭，避免意外产生 80 次调用费用。
-
-逐步配置见 [`docs/model-setup.md`](docs/model-setup.md)。
-
-## 数据、安全与验证
-
-- CSV 仅允许白名单字段、UTF-8、最大 2MB；模板见 `sample-data/batch-template.csv`。
-- 检测 IMEI、手机号、姓名、身份证、邮箱、设备标识字段；正文敏感模式也会阻止处理。
-- critical 必须人工复核；病毒、恶意网站、诈骗、隐私风险会建议暂停自动放量并核查。
-- 人工修正作为新记录保存，不覆盖 AI 原始输出；分析记录可删除。
-
-```bash
-.venv/Scripts/python -m pytest backend/tests -q
-npm run lint
-npm run build
-npm test
-```
-
-后端业务验收覆盖分母匹配、复核实际修改、原始结果保留、正式导出门禁及平台规则范围。请以你本机最新一次测试输出为准，不把合成数据成绩表述为线上业务效果。
-
-页面生命周期回归可运行`npm run test:navigation`（需先启动本地前端，并提供已安装的Playwright/浏览器）。它拦截所有API，不消耗模型额度；正常、慢响应和接口失败三种页面切换场景均验证。配置方式与修复记录见[页面切换修复](docs/frontend-navigation-fix.md)。
-
-运行评测：启动前后端，在“评测中心”选择28条开发集、8条验证集、12条补充集或80条旧版回归集，再选择规则基线/真实模型，预览调用量后执行。真实模式需显式确认；进度、逐条差异和历史记录保存于独立评测表，不计入业务分析量。命令行统一入口为 `scripts/run_evaluation.py`，详见 [统一评测指南](docs/evaluation-center-guide.md)。旧固定80条接口仍保留兼容，但不再是前端默认入口。
-
-## 目录
-
-```text
-app/                         前端页面与组件
-backend/app/                 FastAPI、模型、检索、规则与 Provider
-backend/tests/               后端验收测试
-data/policies/               11份：7演示规范、3公开来源摘要、1内部模拟规范（22片段）
-data/synthetic_records.json  116 条合成记录（80 评测）
-data/evaluation/             单人复核合成数据：48条v2（28开发、8验证、12留出候选）及12条补充开发案例；不是独立盲测
-docs/                        产品、架构、评测、安全与面试材料
-sample-data/                 CSV 模板
-scripts/                     合成数据生成脚本
-.github/                     CI、Issue 模板
-```
-
-真实程序截图已收录于 [`docs/screenshots/`](docs/screenshots/README.md)，并展示在本页开头。截图使用合成演示数据，不包含公司内部素材或用户数据。“AI 建议，仅供辅助判断”。
-
-## 参与项目
-
-本地开发与提交规范见 [`CONTRIBUTING.md`](CONTRIBUTING.md)，安全问题见 [`SECURITY.md`](SECURITY.md)，社区约定见 [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md)。项目采用 [`MIT License`](LICENSE)。
-
-
-
-## 工作空间 2.0 与界面回滚
-
-页面已重组为工作台、分析任务、人工复核、评测中心、知识库与配置。单条分析与 Agent 复核共用表单，结果按需展开，切换模块保留当前会话状态。改版前前端已保存独立快照，恢复前会再次备份当前版本，不修改数据库或模型配置。
-
-操作、边界、验证与截图位置见 [工作空间改版与回滚](docs/workspace-v2-and-rollback.md)。
+详见[架构说明](docs/architecture.md)、[贡献指南](CONTRIBUTING.md)、[安全说明](SECURITY.md)和 [MIT 许可证](LICENSE)。
